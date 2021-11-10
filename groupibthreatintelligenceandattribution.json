@@ -16,7 +16,7 @@
         }
     ],
     "license": "Copyright (c) Group-IB, 2021",
-    "app_version": "1.0.1",
+    "app_version": "1.0.2",
     "pip_dependencies": {
         "pypi": [
             {
@@ -30,7 +30,7 @@
             }
         ]
     },
-    "utctime_updated": "2021-08-27T10:30:26.000000Z",
+    "utctime_updated": "2021-11-10T00:33:58.000000Z",
     "package_name": "phantom_groupibthreatintelligenceandattribution",
     "main_module": "groupibthreatintelligenceandattribution_connector.py",
     "min_phantom_version": "4.9.39220",
