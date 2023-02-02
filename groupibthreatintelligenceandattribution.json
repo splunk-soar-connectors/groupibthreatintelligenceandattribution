@@ -1,22 +1,22 @@
 {
     "appid": "35b2d7ea-098e-4a0a-9b71-e93824865226",
-    "name": "Group IB Threat Intelligence and Attribution",
-    "description": "This app ingests incidents and IOCs from Group-IB Threat Intelligence and Attribution",
+    "name": "Group IB Threat Intelligence",
+    "description": "This app ingests incidents and IOCs from Group-IB Threat Intelligence",
     "type": "information",
     "product_vendor": "Group-IB",
-    "logo": "groupibthreatintelligenceandattribution.svg",
-    "logo_dark": "groupibthreatintelligenceandattribution_dark.svg",
-    "product_name": "Threat Intelligence and Attribution",
+    "logo": "groupibthreatintelligenceandattribution.jpg",
+    "logo_dark": "groupibthreatintelligenceandattribution.jpg",
+    "product_name": "Threat Intelligence",
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Group-IB",
     "contributors": [
         {
-            "name": "Evgeniy Meteliza"
+            "name": "Lanskoy Daniil"
         }
     ],
-    "license": "Copyright (c) Group-IB, 2021",
-    "app_version": "1.0.3",
+    "license": "Copyright (c) Group-IB, 2023",
+    "app_version": "1.0.4",
     "pip_dependencies": {
         "pypi": [
             {

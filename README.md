@@ -1,14 +1,14 @@
 [comment]: # "Auto-generated SOAR connector documentation"
-# Group IB Threat Intelligence and Attribution
+# Group IB Threat Intelligence
 
 Publisher: Group\-IB  
-Connector Version: 1\.0\.2  
+Connector Version: 1\.0\.3 
 Product Vendor: Group\-IB  
-Product Name: Threat Intelligence and Attribution  
+Product Name: Threat Intelligence
 Product Version Supported (regex): "\.\*"  
 Minimum Product Version: 4\.9\.39220  
 
-This app ingests incidents and IOCs from Group\-IB Threat Intelligence and Attribution
+This app ingests incidents and IOCs from Group\-IB Threat Intelligence
 
 [comment]: # "File: readme.md"
 [comment]: # ""
@@ -16,25 +16,25 @@ This app ingests incidents and IOCs from Group\-IB Threat Intelligence and Attri
 [comment]: # ""
 ## Asset configuration
 
-1). Find **Group IB Threat Intelligence and Attribution** app, click **CONFIGURE NEW ASSET** button,
+1). Find **Group IB Threat Intelligence** app, click **CONFIGURE NEW ASSET** button,
 in **Asset Settings** tab enter your credentials and configure necessary collections.
 
 -   **Group-IB API URL** is https://tap.group-ib.com/api/v2/
--   **Username** is the login for the Group-IB TIA portal.
+-   **Username** is the login for the Group-IB TI portal.
 -   **Verify server certificate** - Whether to allow connections without verifying SSL certificates
     validity.
 -   **API key** can be manually generated in the portal:  
-    The old version of the portal: log in to the TIA -> click on your name in the right upper corner
+    The old version of the portal: log in to the TI -> click on your name in the right upper corner
     -> choose the **Profile** option -> click on the **Go to my setting** button under your name ->
     under the **Change password** button you will see **API KEY generator** . **Do not forget to
     save the API key** .  
-    The new version of the portal: log in to the TIA -> click on your name in the right upper corner
+    The new version of the portal: log in to the TI -> click on your name in the right upper corner
     -> choose the **Profile** option -> click on **Security and Access** tab -> click on **Personal
     token** tab -> click on **Generate new token** button -> enter your password, copy token and
     click **Save** button.
 -   Every collection has a poll starting date and enable checkbox.
 
-2). If you are using a proxy to connect to the Group IB TIA server, you can specify the appropriate
+2). If you are using a proxy to connect to the Group IB TI server, you can specify the appropriate
 settings. You need to expand the **Advanced** section on the bottom, find the **Environment**
 section and click **+ Variable** . **NAME** must be HTTPS_PROXY, **VALUE** is your proxy server.
 
@@ -49,7 +49,7 @@ Group-IB.
 
 
 ### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Threat Intelligence and Attribution asset in SOAR.
+The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Threat Intelligence asset in SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
