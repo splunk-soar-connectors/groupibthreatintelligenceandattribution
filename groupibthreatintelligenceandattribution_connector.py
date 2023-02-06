@@ -45,21 +45,21 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         :return: error message
         """
 
-        error_code = ERR_CODE_MSG
-        error_msg = ERR_MSG_UNAVAILABLE
+        err_code = ERR_CODE_MSG
+        err_msg = ERR_MSG_UNAVAILABLE
 
         try:
             if e.args:
                 if len(e.args) > 1:
-                    error_code = e.args[0]
-                    error_msg = e.args[1]
+                    err_code = e.args[0]
+                    err_msg = e.args[1]
                 elif len(e.args) == 1:
-                    error_code = ERR_CODE_MSG
-                    error_msg = e.args[0]
+                    err_code = ERR_CODE_MSG
+                    err_msg = e.args[0]
         except:
             pass
 
-        return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
+        return "Error Code: {0}. Error Message: {1}".format(err_code, err_msg)
 
     def _setup_generator(self, collection_name, date_start, date_end=None, last_fetch=None):
         collection_info = INCIDENT_COLLECTIONS_INFO.get(collection_name, {})
