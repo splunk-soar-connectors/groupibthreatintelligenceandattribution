@@ -6,7 +6,7 @@ Connector Version: 1\.0\.4
 Product Vendor: Group\-IB  
 Product Name: Threat Intelligence
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 5\.3\.0  
+Minimum Product Version: 5\.4\.0  
 
 This app ingests incidents and IOCs from Group\-IB Threat Intelligence
 
