@@ -314,7 +314,7 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
             self._state = {
                 "app_version": self.get_app_json().get('app_version')
             }
-            return self.set_status(phantom.APP_ERROR, GIB_STATE_FILE_CORRUPT_ERR)
+            return self.set_status(phantom.APP_ERROR, GIB_STATE_FILE_CORRUPT_ERROR)
 
         # get the asset config
         config = self.get_config()

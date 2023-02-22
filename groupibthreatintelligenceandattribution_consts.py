@@ -371,4 +371,4 @@ BASE_MAX_ARTIFACTS_COUNT = 1000
 ERROR_CODE_MESSAGE = "Error code unavailable"
 ERROR_MESSAGE_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and|or action parameters"
 
-GIB_STATE_FILE_CORRUPT_ERR = "Unexpected file format when getting data. Resetting the state file with the default format. Please try again."
+GIB_STATE_FILE_CORRUPT_ERROR = "Unexpected file format when getting data. Resetting the state file with the default format. Please try again."
