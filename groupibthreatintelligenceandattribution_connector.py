@@ -45,21 +45,21 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         :return: error message
         """
 
-        err_code = ERR_CODE_MSG
-        err_msg = ERR_MSG_UNAVAILABLE
+        error_code = ERROR_CODE_MESSAGE
+        error_message = ERROR_MESSAGE_UNAVAILABLE
 
         try:
             if e.args:
                 if len(e.args) > 1:
-                    err_code = e.args[0]
-                    err_msg = e.args[1]
+                    error_code = e.args[0]
+                    error_message = e.args[1]
                 elif len(e.args) == 1:
-                    err_code = ERR_CODE_MSG
-                    err_msg = e.args[0]
+                    error_code = ERROR_CODE_MESSAGE
+                    error_message = e.args[0]
         except:
             pass
 
-        return "Error Code: {0}. Error Message: {1}".format(err_code, err_msg)
+        return "Error Code: {0}. Error Message: {1}".format(error_code, error_message)
 
     def _setup_generator(self, collection_name, date_start, date_end=None, last_fetch=None):
         collection_info = INCIDENT_COLLECTIONS_INFO.get(collection_name, {})
@@ -152,8 +152,8 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         try:
             self._gib_tia_connector.get_seq_update_dict()
         except Exception as e:
-            err_msg = self._get_error_message_from_exception(e)
-            action_result.set_status(phantom.APP_ERROR, "{0}".format(err_msg))
+            error_message = self._get_error_message_from_exception(e)
+            action_result.set_status(phantom.APP_ERROR, "{0}".format(error_message))
 
         if phantom.is_fail(action_result.get_status()):
             self.save_progress("Test Connectivity Failed")
@@ -276,8 +276,8 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
                 if flag:
                     break
             except Exception as e:
-                err_msg = self._get_error_message_from_exception(e)
-                return action_result.set_status(phantom.APP_ERROR, err_msg)
+                error_message = self._get_error_message_from_exception(e)
+                return action_result.set_status(phantom.APP_ERROR, error_message)
         else:
             self.debug_print('No collections have been configured for on_poll action.'
                              'Please set up the proper configuration parameters')
@@ -331,8 +331,8 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
                 except Exception as e:
                     message = 'Inappropriate first_fetch format, ' \
                               'please use something like this: 2020-01-01 or January 1 2020 or 3 days'
-                    err_msg = self._get_error_message_from_exception(e)
-                    self.set_status(phantom.APP_ERROR, "{0}. Error message: {1}".format(message, err_msg))
+                    error_message = self._get_error_message_from_exception(e)
+                    self.set_status(phantom.APP_ERROR, "{0}. Error message: {1}".format(message, error_message))
                     return phantom.APP_ERROR
                 self._collections.update({collection: parsed_date})
 
