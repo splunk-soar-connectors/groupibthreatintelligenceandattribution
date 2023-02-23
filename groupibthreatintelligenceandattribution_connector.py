@@ -6,16 +6,17 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import json
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import requests
+from dateparser import parse
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+from pytia import TIAPoller
 
 from groupibthreatintelligenceandattribution_consts import *
-import requests
-from pytia import TIAPoller
-from dateparser import parse
-import json
 
 
 class RetVal(tuple):
@@ -351,8 +352,9 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
 
 
 def main():
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
