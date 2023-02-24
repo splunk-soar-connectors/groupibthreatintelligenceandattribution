@@ -1,4 +1,1 @@
 **Unreleased**
-
-* Updated Product Name and Logo
-* Minor bug fixes
