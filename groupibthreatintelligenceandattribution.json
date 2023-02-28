@@ -4,8 +4,8 @@
     "description": "This app ingests incidents and IOCs from Group-IB Threat Intelligence",
     "type": "information",
     "product_vendor": "Group-IB",
-    "logo": "groupibthreatintelligenceandattribution.svg",
-    "logo_dark": "groupibthreatintelligenceandattribution_dark.svg",
+    "logo": "logo_groupibthreatintelligenceandattribution.svg",
+    "logo_dark": "logo_groupibthreatintelligenceandattribution_dark.svg",
     "product_name": "Threat Intelligence",
     "python_version": "3",
     "product_version_regex": ".*",
@@ -19,6 +19,22 @@
     "app_version": "1.0.4",
     "pip_dependencies": {
         "wheel": [
+            {
+                "module": "pytia",
+                "input_file": "wheels/py3/pytia-0.5.1-py3-none-any.whl"
+            },
+            {
+                "module": "pytia",
+                "input_file": "wheels/py36/pytia-0.5.1-py3-none-any.whl"
+            },
+            {
+                "module": "pytia",
+                "input_file": "wheels/py39/pytia-0.5.1-py3-none-any.whl"
+            },
+            {
+                "module": "pytia",
+                "input_file": "wheels/shared/pytia-0.5.1-py3-none-any.whl"
+            },
             {
                 "module": "certifi",
                 "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
