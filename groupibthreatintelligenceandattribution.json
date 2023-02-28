@@ -18,15 +18,26 @@
     "license": "Copyright (c) Group-IB, 2023",
     "app_version": "1.0.4",
     "pip_dependencies": {
-        "pypi": [
-            {
-                "module": "dateparser"
-            }
-        ],
         "wheel": [
             {
-                "module": "pytia",
-                "input_file": "wheels/pytia-0.5.1-py3-none-any.whl"
+                "module": "certifi",
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/shared/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/shared/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.26.14-py2.py3-none-any.whl"
             }
         ]
     },
