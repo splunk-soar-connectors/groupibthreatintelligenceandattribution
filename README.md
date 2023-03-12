@@ -2,22 +2,22 @@
 # Group IB Threat Intelligence
 
 Publisher: Group\-IB  
-Connector Version: 1\.0\.3 
+Connector Version: 1\.0\.4  
 Product Vendor: Group\-IB  
-Product Name: Threat Intelligence
+Product Name: Threat Intelligence  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 4\.9\.39220  
+Minimum Product Version: 5\.4\.0  
 
 This app ingests incidents and IOCs from Group\-IB Threat Intelligence
 
-[comment]: # "File: readme.md"
+[comment]: # "File: README.md"
 [comment]: # ""
 [comment]: # "    Licensed under Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.txt)"
 [comment]: # ""
 ## Asset configuration
 
-1). Find **Group IB Threat Intelligence** app, click **CONFIGURE NEW ASSET** button,
-in **Asset Settings** tab enter your credentials and configure necessary collections.
+1). Find **Group IB Threat Intelligence** app, click **CONFIGURE NEW ASSET** button, in **Asset
+Settings** tab enter your credentials and configure necessary collections.
 
 -   **Group-IB API URL** is https://tap.group-ib.com/api/v2/
 -   **Username** is the login for the Group-IB TI portal.
@@ -44,7 +44,7 @@ section and click **+ Variable** . **NAME** must be HTTPS_PROXY, **VALUE** is yo
 
 #### pytia
 
-This app uses the pytia module, which is licensed under the MIT License (MIT), Copyright (c) 2021
+This app uses the pytia module, which is licensed under the MIT License (MIT), Copyright (c) 2023
 Group-IB.
 
 
