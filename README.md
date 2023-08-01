@@ -1,14 +1,14 @@
 [comment]: # "Auto-generated SOAR connector documentation"
 # Group IB Threat Intelligence
 
-Publisher: Group\-IB  
-Connector Version: 1\.0\.4  
-Product Vendor: Group\-IB  
+Publisher: Group-IB  
+Connector Version: 1.0.5  
+Product Vendor: Group-IB  
 Product Name: Threat Intelligence  
-Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 5\.4\.0  
+Product Version Supported (regex): ".\*"  
+Minimum Product Version: 5.4.0  
 
-This app ingests incidents and IOCs from Group\-IB Threat Intelligence
+This app ingests incidents and IOCs from Group-IB Threat Intelligence
 
 [comment]: # "File: README.md"
 [comment]: # ""
@@ -54,29 +54,29 @@ The below configuration variables are required for this Connector to operate.  T
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
 **username** |  required  | string | Username
-**api\_key** |  required  | password | API key
-**base\_url** |  required  | string | Group\-IB API URL
+**api_key** |  required  | password | API key
+**base_url** |  required  | string | Group-IB API URL
 **insecure** |  optional  | boolean | Verify server certificate
-**compromised\_account** |  optional  | boolean | Ingest incidents from compromised/account collection
-**compromised\_account\_start** |  optional  | string | Date to start
-**compromised\_breached** |  optional  | boolean | Ingest incidents from compromised/breached collection
-**compromised\_breached\_start** |  optional  | string | Date to start
-**compromised\_card** |  optional  | boolean | Ingest incidents from compromised/card collection
-**compromised\_card\_start** |  optional  | string | Date to start
-**bp\_phishing** |  optional  | boolean | Ingest incidents from bp/phishing collection
-**bp\_phishing\_start** |  optional  | string | Date to start
-**bp\_phishing\_kit** |  optional  | boolean | Ingest incidents from bp/phishing\_kit collection
-**bp\_phishing\_kit\_start** |  optional  | string | Date to start
-**osi\_git\_leak** |  optional  | boolean | Ingest incidents from osi/git\_leak collection
-**osi\_git\_leak\_start** |  optional  | string | Date to start
-**osi\_public\_leak** |  optional  | boolean | Ingest incidents from osi/public\_leak collection
-**osi\_public\_leak\_start** |  optional  | string | Date to start
-**malware\_targeted\_malware** |  optional  | boolean | Ingest incidents from malware/targeted\_malware collection
-**malware\_targeted\_malware\_start** |  optional  | string | Date to start
+**compromised_account** |  optional  | boolean | Ingest incidents from compromised/account collection
+**compromised_account_start** |  optional  | string | Date to start
+**compromised_breached** |  optional  | boolean | Ingest incidents from compromised/breached collection
+**compromised_breached_start** |  optional  | string | Date to start
+**compromised_card** |  optional  | boolean | Ingest incidents from compromised/card collection
+**compromised_card_start** |  optional  | string | Date to start
+**bp_phishing** |  optional  | boolean | Ingest incidents from bp/phishing collection
+**bp_phishing_start** |  optional  | string | Date to start
+**bp_phishing_kit** |  optional  | boolean | Ingest incidents from bp/phishing_kit collection
+**bp_phishing_kit_start** |  optional  | string | Date to start
+**osi_git_leak** |  optional  | boolean | Ingest incidents from osi/git_leak collection
+**osi_git_leak_start** |  optional  | string | Date to start
+**osi_public_leak** |  optional  | boolean | Ingest incidents from osi/public_leak collection
+**osi_public_leak_start** |  optional  | string | Date to start
+**malware_targeted_malware** |  optional  | boolean | Ingest incidents from malware/targeted_malware collection
+**malware_targeted_malware_start** |  optional  | string | Date to start
 
 ### Supported Actions  
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
-[on poll](#action-on-poll) - Callback action for the on\_poll ingest functionality  
+[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality  
 
 ## action: 'test connectivity'
 Validate the asset configuration for connectivity using supplied configuration
@@ -84,7 +84,7 @@ Validate the asset configuration for connectivity using supplied configuration
 Type: **test**  
 Read only: **True**
 
-This action make a simple API request to Group\-IB with provided credentials to validate them\.
+This action make a simple API request to Group-IB with provided credentials to validate them.
 
 #### Action Parameters
 No parameters are required for this action
@@ -93,7 +93,7 @@ No parameters are required for this action
 No Output  
 
 ## action: 'on poll'
-Callback action for the on\_poll ingest functionality
+Callback action for the on_poll ingest functionality
 
 Type: **ingest**  
 Read only: **True**
@@ -101,11 +101,11 @@ Read only: **True**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**container\_id** |  optional  | The parameter isn't used in this app | string | 
-**start\_time** |  optional  | Start of time range, in epoch time \(milliseconds\) | numeric | 
-**end\_time** |  optional  | End of time range, in epoch time \(milliseconds\) | numeric | 
-**container\_count** |  optional  | Maximum number of container records to query for | numeric | 
-**artifact\_count** |  optional  | Maximum number of artifact records to query for | numeric | 
+**container_id** |  optional  | The parameter isn't used in this app | string | 
+**start_time** |  optional  | Start of time range, in epoch time (milliseconds) | numeric | 
+**end_time** |  optional  | End of time range, in epoch time (milliseconds) | numeric | 
+**container_count** |  optional  | Maximum number of container records to query for | numeric | 
+**artifact_count** |  optional  | Maximum number of artifact records to query for | numeric | 
 
 #### Action Output
 No Output
