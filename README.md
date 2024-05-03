@@ -103,7 +103,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **container_id** |  optional  | The parameter isn't used in this app | string | 
 **start_time** |  optional  | Start of time range, in epoch time (milliseconds) | numeric | 
-**end_time** |  optional  | End of time range, in epoch time \milliseconds) | numeric | 
+**end_time** |  optional  | End of time range, in epoch time (milliseconds) | numeric | 
 **container_count** |  optional  | Maximum number of container records to query for | numeric | 
 **artifact_count** |  optional  | Maximum number of artifact records to query for | numeric | 
 
