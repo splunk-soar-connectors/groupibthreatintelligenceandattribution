@@ -14,7 +14,7 @@ import requests
 from dateparser import parse
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
-from pytia import TIAPoller
+from cyberintegrations import TIPoller
 
 from groupibthreatintelligenceandattribution_consts import *
 
@@ -37,7 +37,7 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
-        self._gib_tia_connector = TIAPoller("", "", "")
+        self._gib_tia_connector = TIPoller("", "", "")
         self._collections = {}
 
     def _get_error_message_from_exception(self, e):
@@ -151,7 +151,7 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
         # make rest call
         try:
-            self._gib_tia_connector.get_seq_update_dict()
+            self._gib_tia_connector.get_available_collections()
         except Exception as e:
             error_message = self._get_error_message_from_exception(e)
             action_result.set_status(phantom.APP_ERROR, "{0}".format(error_message))
@@ -172,8 +172,10 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         container_count = 0
         artifacts_count = 0
         flag = 0
-
+        self.debug_print("start polling")
+        self.debug_print(self._collections.items())
         for collection_name, date_start in self._collections.items():
+            self.debug_print(collection_name + ' ' + date_start)
             self.debug_print('Starting polling process for {0} collection'.format(collection_name))
             self.save_progress('Starting polling process for {0} collection'.format(collection_name))
 
@@ -320,7 +322,7 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         # get the asset config
         config = self.get_config()
 
-        self._gib_tia_connector = TIAPoller(username=config.get('username'),
+        self._gib_tia_connector = TIPoller(username=config.get('username'),
                                             api_key=config.get('api_key'),
                                             api_url=config.get('base_url'))
         self._gib_tia_connector.set_verify(verify=not config.get('insecure', False))

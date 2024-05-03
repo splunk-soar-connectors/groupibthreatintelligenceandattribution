@@ -1,0 +1,252 @@
+{
+    "appid": "d49748ff-225b-49be-8ffb-700bd5f1895d",
+    "name": "Development",
+    "description": "This app ingests incidents and IOCs from Group-IB Threat Intelligence",
+    "type": "information",
+    "product_vendor": "Group-IB_clone_1711979370670",
+    "logo": "logo_groupibthreatintelligenceandattribution.svg",
+    "logo_dark": "logo_groupibthreatintelligenceandattribution_dark.svg",
+    "product_name": "Threat Intelligence_clone_1711979370670",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Group-IB",
+    "contributors": [
+        {
+            "name": "Lanskoy Daniil"
+        }
+    ],
+    "license": "Copyright (c) Group-IB, 2023",
+    "app_version": "1.0.0",
+    "utctime_updated": "2024-04-01T13:50:18.570548Z",
+    "package_name": "phantom_development",
+    "main_module": "groupibthreatintelligenceandattribution_connector.py",
+    "min_phantom_version": "5.4.0",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "username": {
+            "description": "Username",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "",
+            "order": 0,
+            "name": "username",
+            "id": 0
+        },
+        "api_key": {
+            "description": "API key",
+            "data_type": "password",
+            "required": true,
+            "order": 1,
+            "name": "api_key",
+            "id": 1
+        },
+        "base_url": {
+            "description": "Group-IB API URL",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "https://tap.group-ib.com/api/v2/",
+            "order": 2,
+            "name": "base_url",
+            "id": 2
+        },
+        "insecure": {
+            "description": "Verify server certificate",
+            "data_type": "boolean",
+            "required": false,
+            "default": "False",
+            "order": 3,
+            "name": "insecure",
+            "id": 3
+        },
+        "ioc_common": {
+            "description": "IOC_COMMON",
+            "data_type": "boolean",
+            "required": false,
+            "default": "False",
+            "order": 4,
+            "name": "ioc_common",
+            "id": 4
+        },
+        "ioc_common_start": {
+            "description": "date to start",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "",
+            "order": 5,
+            "name": "ioc_common_start",
+            "id": 5
+        },
+        "compromised_account_group": {
+            "description": "Compromised Accounts",
+            "data_type": "boolean",
+            "required": false,
+            "default": "False",
+            "order": 6,
+            "name": "compromised_account_group",
+            "id": 6
+        },
+        "compromised_account_group_start": {
+            "description": "date to start",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "3 days",
+            "order": 7,
+            "name": "compromised_account_group_start",
+            "id": 7
+        },
+        "compromised_breached": {
+            "description": "Compromised Breached",
+            "data_type": "boolean",
+            "required": false,
+            "default": "False",
+            "order": 8,
+            "name": "compromised_breached",
+            "id": 8
+        },
+        "compromised_breached_start": {
+            "description": "date to start",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "3 days",
+            "order": 9,
+            "name": "compromised_breached_start",
+            "id": 9
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "This action make a simple API request to Group-IB with provided credentials to validate them.",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "on poll",
+            "description": "Callback action for the on_poll ingest functionality",
+            "type": "ingest",
+            "identifier": "on_poll",
+            "read_only": true,
+            "parameters": {
+                "container_id": {
+                    "data_type": "string",
+                    "order": 0,
+                    "description": "The parameter isn't used in this app",
+                    "name": "container_id"
+                },
+                "start_time": {
+                    "data_type": "numeric",
+                    "order": 1,
+                    "description": "Start of time range, in epoch time (milliseconds)",
+                    "verbose": "If not specified, the default is past 10 days",
+                    "name": "start_time"
+                },
+                "end_time": {
+                    "data_type": "numeric",
+                    "order": 2,
+                    "description": "End of time range, in epoch time (milliseconds)",
+                    "verbose": "If not specified, the default is now",
+                    "name": "end_time"
+                },
+                "container_count": {
+                    "data_type": "numeric",
+                    "order": 3,
+                    "description": "Maximum number of container records to query for",
+                    "name": "container_count"
+                },
+                "artifact_count": {
+                    "data_type": "numeric",
+                    "order": 4,
+                    "description": "Maximum number of artifact records to query for",
+                    "name": "artifact_count"
+                }
+            },
+            "output": [],
+            "versions": "EQ(*)"
+        }
+    ],
+    "pip39_dependencies": {
+        "wheel": [
+            {
+                "module": "cyberintegrations",
+                "input_file": "wheels/py3/cyberintegrations-0.5.1-py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "dateparser",
+                "input_file": "wheels/shared/dateparser-1.1.7-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/shared/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "python_dateutil",
+                "input_file": "wheels/shared/python_dateutil-2.8.2-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pytz",
+                "input_file": "wheels/shared/pytz-2022.7.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pytz_deprecation_shim",
+                "input_file": "wheels/shared/pytz_deprecation_shim-0.1.0.post0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "regex",
+                "input_file": "wheels/py39/regex-2022.10.31-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/shared/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "six",
+                "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "tzdata",
+                "input_file": "wheels/shared/tzdata-2022.7-py2.py3-none-any.whl"
+            },
+            {
+                "module": "tzlocal",
+                "input_file": "wheels/py3/tzlocal-4.2-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.26.14-py2.py3-none-any.whl"
+            }
+        ]
+    },
+    "copied_from_id": 1,
+    "copied_from_version": "1.0.4",
+    "directory": "development_d49748ff-225b-49be-8ffb-700bd5f1895d",
+    "version": 1,
+    "appname": "-",
+    "executable": "spawn3",
+    "disabled": false,
+    "pip3_dependencies": {
+        "wheel": [
+            {
+                "module": "cyberintegrations",
+                "input_file": "wheels/cyberintegrations-0.7.0-py3-none-any.whl"
+            }
+        ]
+    }
+}

@@ -1,3 +1,3 @@
 dateparser==1.1.7
-pytia==0.5.1
+cyberintegrations==0.7.0
 requests==2.25.0
