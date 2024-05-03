@@ -30,7 +30,7 @@ section and click **+ Variable** . **NAME** must be HTTPS_PROXY, **VALUE** is yo
 
 ## SDK and SDK Licensing details for the app
 
-#### pytia
+#### cyberintegrations
 
-This app uses the pytia module, which is licensed under the MIT License (MIT), Copyright (c) 2023
+This app uses the cyberintegrations module, which is licensed under the MIT License (MIT), Copyright (c) 2023
 Group-IB.
