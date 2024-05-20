@@ -7,20 +7,17 @@ BASE_ARTIFACT = {
     "label": "gib indicator",
     "tags": ["gib"]
 }
-
 BASE_MAPPING_CONTAINER = {
     "source_data_identifier": "id",
     "sensitivity": "evaluation.tlp",
     "severity": "evaluation.severity"
 }
 BASE_MAPPING_ARTIFACT = {}
-
 BASE_CEF_LIST = {
     "deviceVendor": "*Group IB",
     "deviceProduct": "*Threat Intelligence and Attribution",
     "deviceSeverity": "evaluation.severity"
 }
-
 BASE_CNC = {
     **BASE_CEF_LIST,
     "sourceHostName": "cnc.domain",
@@ -37,7 +34,6 @@ BASE_CNC = {
     "deviceCustomString5": "cnc.ipv4.asn",
     "deviceCustomString5label": "*asn"
 }
-
 BASE_ADDITIONAL_INFO = {
     **BASE_CEF_LIST,
     "deviceCustomString1": "malware.name",
@@ -48,7 +44,6 @@ BASE_ADDITIONAL_INFO = {
     "deviceCustomString3label": "*threatActorIsApt",
     "requestUrl": "portalLink"
 }
-
 INCIDENT_COLLECTIONS_INFO = {
     'ioc/common': {
         "container": {
