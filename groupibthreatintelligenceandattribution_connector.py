@@ -12,10 +12,11 @@ import json
 import phantom.app as phantom
 import requests
 from cyberintegrations import TIPoller
-from groupibthreatintelligenceandattribution_consts import *
 from dateparser import parse
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
+
+from groupibthreatintelligenceandattribution_consts import *
 
 
 class RetVal(tuple):
