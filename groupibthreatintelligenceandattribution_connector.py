@@ -18,9 +18,6 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
 
-
-
-
 class RetVal(tuple):
 
     def __new__(cls, val1, val2=None):
