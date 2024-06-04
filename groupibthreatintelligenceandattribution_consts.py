@@ -19,7 +19,9 @@ BASE_CEF_LIST = {
     "deviceSeverity": "evaluation.severity"
 }
 BASE_CNC = {
-    **BASE_CEF_LIST,
+    "deviceVendor": "*Group IB",
+    "deviceProduct": "*Threat Intelligence and Attribution",
+    "deviceSeverity": "evaluation.severity",
     "sourceHostName": "cnc.domain",
     "sourceAddress": "cnc.ipv4.ip",
     "requestUrl": "cnc.url",
@@ -35,7 +37,9 @@ BASE_CNC = {
     "deviceCustomString5label": "*asn"
 }
 BASE_ADDITIONAL_INFO = {
-    **BASE_CEF_LIST,
+    "deviceVendor": "*Group IB",
+    "deviceProduct": "*Threat Intelligence and Attribution",
+    "deviceSeverity": "evaluation.severity",
     "deviceCustomString1": "malware.name",
     "deviceCustomString1label": "*malwareName",
     "deviceCustomString2": "threatActor.name",
@@ -63,7 +67,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*network",
                 "start_time": "dateDetected",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "*id": "id",
                     "*threatList.name": "threatList.name",
                     "destinationHostName": "domain",
@@ -92,9 +98,11 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*network",
                 "start_time": "dateDetected",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "Login": "login",
-                    "Password": "password",
+                    "Password": "password",  # pragma: allowlist secret
                     "Events": "events",
                     "destinationHostName": "domain",
                     "destinationAddress": "client.ipv4.ip"
@@ -126,7 +134,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*network",
                 "start_time": "uploadTime",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "leakName": "leakName",
                     "password": "password",
                 }
@@ -153,7 +163,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*other",
                 "start_time": "dateDetected",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "Card Number": "cardInfo.number",
                     "deviceCustomString1label": "*cardNumber",
                     "deviceCustomString2": "cardInfo.issuer.issuer",
@@ -172,7 +184,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "name": "*Owner",
                 "type": "*other",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "deviceCustomString1": "owner.name",
                     "deviceCustomString1label": "*name",
                     "suser": "owner.email"
@@ -203,7 +217,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*file",
                 "start_time": "date",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "fileName": "fileName",
                     "fileType": "fileType",
                     "fileSize": "size",
@@ -243,7 +259,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "name": "*Additional info",
                 "type": "*other",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "fileHash": "hash",
                     "fileSize": "size",
                     "deviceCustomString1": "language",
@@ -268,7 +286,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "name": "*Additional info",
                 "type": "*other",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "fileName": "name",
                     "deviceCustomString1": "source",
                     "deviceCustomString1label": "*source",
@@ -295,7 +315,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*network",
                 "start_time": "dateDetected",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "sourceHostName": "phishingDomain.domain",
                     "sourceAddress": "ipv4.ip",
                     "requestUrl": "url",
@@ -317,7 +339,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "name": "*Additional info",
                 "type": "*other",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "deviceCustomString1": "company",
                     "deviceCustomString1label": "*company",
                     "deviceCustomString2": "status",
@@ -351,7 +375,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "start_time": "dateDetected",
                 "end_time": "dateLastSeen",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "fileHash": "hash",
                     "sourceDomain": "downloadedFrom.domain",
                     "requestUrl": "downloadedFrom.url",
@@ -362,7 +388,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "name": "*Additional info",
                 "type": "*other",
                 "cef": {
-                    **BASE_CEF_LIST,
+                    "deviceVendor": "*Group IB",
+                    "deviceProduct": "*Threat Intelligence and Attribution",
+                    "deviceSeverity": "evaluation.severity",
                     "deviceCustomString1": "company",
                     "deviceCustomString1label": "*company",
                     "deviceCustomString2": "source",

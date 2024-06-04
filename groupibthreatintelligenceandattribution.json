@@ -1,6 +1,6 @@
 {
-    "appid": "d49748ff-225b-49be-8ffb-700bd5f1895d",
-    "name": "Development",
+    "appid": "35b2d7ea-098e-4a0a-9b71-e93824865226",
+    "name": "Group IB Threat Intelligence",
     "description": "This app ingests incidents and IOCs from Group-IB Threat Intelligence",
     "type": "information",
     "product_vendor": "Group-IB_clone_1711979370670",
@@ -15,7 +15,7 @@
             "name": "Lanskoy Daniil"
         }
     ],
-    "license": "Copyright (c) Group-IB, 2023",
+    "license": "Copyright (c) Group-IB, 2023-24",
     "app_version": "1.0.0",
     "utctime_updated": "2024-04-01T13:50:18.570548Z",
     "package_name": "phantom_development",
@@ -70,7 +70,7 @@
             "id": 4
         },
         "ioc_common_start": {
-            "description": "date to start",
+            "description": "Date to start",
             "data_type": "string",
             "required": false,
             "value_list": [],
@@ -89,7 +89,7 @@
             "id": 6
         },
         "compromised_account_group_start": {
-            "description": "date to start",
+            "description": "Date to start",
             "data_type": "string",
             "required": false,
             "value_list": [],
@@ -108,7 +108,7 @@
             "id": 8
         },
         "compromised_breached_start": {
-            "description": "date to start",
+            "description": "Date to start",
             "data_type": "string",
             "required": false,
             "value_list": [],
@@ -140,34 +140,29 @@
                 "container_id": {
                     "data_type": "string",
                     "order": 0,
-                    "description": "The parameter isn't used in this app",
-                    "name": "container_id"
+                    "description": "The parameter isn't used in this app"
                 },
                 "start_time": {
                     "data_type": "numeric",
                     "order": 1,
                     "description": "Start of time range, in epoch time (milliseconds)",
-                    "verbose": "If not specified, the default is past 10 days",
-                    "name": "start_time"
+                    "verbose": "If not specified, the default is past 10 days"
                 },
                 "end_time": {
                     "data_type": "numeric",
                     "order": 2,
                     "description": "End of time range, in epoch time (milliseconds)",
-                    "verbose": "If not specified, the default is now",
-                    "name": "end_time"
+                    "verbose": "If not specified, the default is now"
                 },
                 "container_count": {
                     "data_type": "numeric",
                     "order": 3,
-                    "description": "Maximum number of container records to query for",
-                    "name": "container_count"
+                    "description": "Maximum number of container records to query for"
                 },
                 "artifact_count": {
                     "data_type": "numeric",
                     "order": 4,
-                    "description": "Maximum number of artifact records to query for",
-                    "name": "artifact_count"
+                    "description": "Maximum number of artifact records to query for"
                 }
             },
             "output": [],
@@ -178,59 +173,35 @@
         "wheel": [
             {
                 "module": "cyberintegrations",
-                "input_file": "wheels/py3/cyberintegrations-0.5.1-py3-none-any.whl"
+                "input_file": "wheels/py3/cyberintegrations-0.7.0-py3-none-any.whl"
             },
             {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
-            },
-            {
-                "module": "chardet",
-                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+                "module": "dataclasses",
+                "input_file": "wheels/py3/dataclasses-0.6-py3-none-any.whl"
             },
             {
                 "module": "dateparser",
                 "input_file": "wheels/shared/dateparser-1.1.7-py2.py3-none-any.whl"
             },
             {
-                "module": "idna",
-                "input_file": "wheels/shared/idna-2.10-py2.py3-none-any.whl"
-            },
-            {
                 "module": "python_dateutil",
-                "input_file": "wheels/shared/python_dateutil-2.8.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2022.7.1-py2.py3-none-any.whl"
-            },
-            {
-                "module": "pytz_deprecation_shim",
-                "input_file": "wheels/shared/pytz_deprecation_shim-0.1.0.post0-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2024.1-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",
-                "input_file": "wheels/py39/regex-2022.10.31-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "requests",
-                "input_file": "wheels/shared/requests-2.25.0-py2.py3-none-any.whl"
+                "input_file": "wheels/py39/regex-2024.5.15-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "six",
                 "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
             },
             {
-                "module": "tzdata",
-                "input_file": "wheels/shared/tzdata-2022.7-py2.py3-none-any.whl"
-            },
-            {
                 "module": "tzlocal",
-                "input_file": "wheels/py3/tzlocal-4.2-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.14-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/tzlocal-5.2-py3-none-any.whl"
             }
         ]
     },
@@ -245,7 +216,7 @@
         "wheel": [
             {
                 "module": "cyberintegrations",
-                "input_file": "wheels/cyberintegrations-0.7.0-py3-none-any.whl"
+                "input_file": "wheels/py3/cyberintegrations-0.7.0-py3-none-any.whl"
             }
         ]
     }

@@ -44,7 +44,7 @@ section and click **+ Variable** . **NAME** must be HTTPS_PROXY, **VALUE** is yo
 
 #### cyberintegrations
 
-This app uses the cyberintegrations module, which is licensed under the MIT License (MIT), Copyright (c) 2023
+This app uses the cyberintegrations module, which is licensed under the MIT License (MIT), Copyright (c) 2023-24
 Group-IB.
 
 

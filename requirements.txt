@@ -1,3 +1,2 @@
-dateparser==1.1.7
 cyberintegrations==0.7.0
-requests==2.25.0
+dateparser==1.1.7
