@@ -20,7 +20,7 @@
     "utctime_updated": "2024-04-01T13:50:18.570548Z",
     "package_name": "phantom_groupibthreatintelligenceandattribution",
     "main_module": "groupibthreatintelligenceandattribution_connector.py",
-    "min_phantom_version": "6.2.0",
+    "min_phantom_version": "5.4.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "username": {
