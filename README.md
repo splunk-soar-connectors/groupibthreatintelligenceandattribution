@@ -2,13 +2,13 @@
 # Group IB Threat Intelligence
 
 Publisher: Group-IB  
-Connector Version: 1.0.5
+Connector Version: 2.0.0  
 Product Vendor: Group-IB  
 Product Name: Threat Intelligence  
-Product Version Supported (regex): "\.\*"  
+Product Version Supported (regex): ".\*"  
 Minimum Product Version: 5.4.0  
 
-This app ingests incidents and IOCs from Group\-IB Threat Intelligence
+This app ingests incidents and IOCs from Group-IB Threat Intelligence
 
 [comment]: # "File: README.md"
 [comment]: # ""
@@ -57,22 +57,12 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 **api_key** |  required  | password | API key
 **base_url** |  required  | string | Group-IB API URL
 **insecure** |  optional  | boolean | Verify server certificate
-**compromised_account** |  optional  | boolean | Ingest incidents from compromised/account collection
-**compromised_account_start** |  optional  | string | Date to start
-**compromised_breached** |  optional  | boolean | Ingest incidents from compromised/breached collection
+**ioc_common** |  optional  | boolean | IOC_COMMON
+**ioc_common_start** |  optional  | string | Date to start
+**compromised_account_group** |  optional  | boolean | Compromised Accounts
+**compromised_account_group_start** |  optional  | string | Date to start
+**compromised_breached** |  optional  | boolean | Compromised Breached
 **compromised_breached_start** |  optional  | string | Date to start
-**compromised_card** |  optional  | boolean | Ingest incidents from compromised/card collection
-**compromised_card_start** |  optional  | string | Date to start
-**bp_phishing** |  optional  | boolean | Ingest incidents from bp/phishing collection
-**bp_phishing_start** |  optional  | string | Date to start
-**bp_phishing_kit** |  optional  | boolean | Ingest incidents from bp/phishing_kit collection
-**bp_phishing_kit_start** |  optional  | string | Date to start
-**osi_git_leak** |  optional  | boolean | Ingest incidents from osi/git_leak collection
-**osi_git_leak_start** |  optional  | string | Date to start
-**osi_public_leak** |  optional  | boolean | Ingest incidents from osi/public_leak collection
-**osi_public_leak_start** |  optional  | string | Date to start
-**malware_targeted_malware** |  optional  | boolean | Ingest incidents from malware/targeted_malware collection
-**malware_targeted_malware_start** |  optional  | string | Date to start
 
 ### Supported Actions  
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
@@ -84,7 +74,7 @@ Validate the asset configuration for connectivity using supplied configuration
 Type: **test**  
 Read only: **True**
 
-This action make a simple API request to Group-IB with provided credentials to validate them\.
+This action make a simple API request to Group-IB with provided credentials to validate them.
 
 #### Action Parameters
 No parameters are required for this action
