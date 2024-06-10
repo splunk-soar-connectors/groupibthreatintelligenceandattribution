@@ -1,9 +1,2 @@
 Splunk SOAR Group IB Threat Intelligence
-Copyright (c) Group-IB, 2023
-
-Third-party Software Attributions:
-
-Library: requests
-Version: 2.25.0
-License: Apache 2.0
-Kenneth Reitz
+Copyright (c) Group-IB, 2023-24

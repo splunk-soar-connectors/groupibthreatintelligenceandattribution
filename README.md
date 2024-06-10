@@ -2,13 +2,13 @@
 # Group IB Threat Intelligence
 
 Publisher: Group-IB  
-Connector Version: 1.0.5  
+Connector Version: 1.0.5
 Product Vendor: Group-IB  
 Product Name: Threat Intelligence  
-Product Version Supported (regex): ".\*"  
+Product Version Supported (regex): "\.\*"  
 Minimum Product Version: 5.4.0  
 
-This app ingests incidents and IOCs from Group-IB Threat Intelligence
+This app ingests incidents and IOCs from Group\-IB Threat Intelligence
 
 [comment]: # "File: README.md"
 [comment]: # ""
@@ -42,9 +42,9 @@ section and click **+ Variable** . **NAME** must be HTTPS_PROXY, **VALUE** is yo
 
 ## SDK and SDK Licensing details for the app
 
-#### pytia
+#### cyberintegrations
 
-This app uses the pytia module, which is licensed under the MIT License (MIT), Copyright (c) 2023
+This app uses the cyberintegrations module, which is licensed under the MIT License (MIT), Copyright (c) 2023-24
 Group-IB.
 
 
@@ -84,7 +84,7 @@ Validate the asset configuration for connectivity using supplied configuration
 Type: **test**  
 Read only: **True**
 
-This action make a simple API request to Group-IB with provided credentials to validate them.
+This action make a simple API request to Group-IB with provided credentials to validate them\.
 
 #### Action Parameters
 No parameters are required for this action
