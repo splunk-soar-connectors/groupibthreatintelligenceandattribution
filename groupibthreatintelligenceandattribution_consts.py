@@ -2,26 +2,22 @@
 #
 # Licensed under Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.txt)
 #
-
 BASE_CONTAINER = {"tags": ["gib"]}
 BASE_ARTIFACT = {
     "label": "gib indicator",
     "tags": ["gib"]
 }
-
 BASE_MAPPING_CONTAINER = {
     "source_data_identifier": "id",
     "sensitivity": "evaluation.tlp",
     "severity": "evaluation.severity"
 }
 BASE_MAPPING_ARTIFACT = {}
-
 BASE_CEF_LIST = {
     "deviceVendor": "*Group IB",
     "deviceProduct": "*Threat Intelligence and Attribution",
     "deviceSeverity": "evaluation.severity"
 }
-
 BASE_CNC = {
     **BASE_CEF_LIST,
     "sourceHostName": "cnc.domain",
@@ -38,7 +34,6 @@ BASE_CNC = {
     "deviceCustomString5": "cnc.ipv4.asn",
     "deviceCustomString5label": "*asn"
 }
-
 BASE_ADDITIONAL_INFO = {
     **BASE_CEF_LIST,
     "deviceCustomString1": "malware.name",
@@ -49,9 +44,37 @@ BASE_ADDITIONAL_INFO = {
     "deviceCustomString3label": "*threatActorIsApt",
     "requestUrl": "portalLink"
 }
-
 INCIDENT_COLLECTIONS_INFO = {
-    'compromised/account': {
+    'ioc/common': {
+        "container": {
+            "name": "login",
+            "start_time": "dateDetected",
+            "last_fetch": "seqUpdate"
+        },
+        "artifacts": [
+            {
+                "name": "*cnc",
+                "type": "*network",
+                "start_time": "dateDetected",
+                "cef": BASE_CNC
+            },
+            {
+                "name": "*IOC common",
+                "type": "*network",
+                "start_time": "dateDetected",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "*id": "id",
+                    "*threatList.name": "threatList.name",
+                    "destinationHostName": "domain",
+                    "destinationAddress": "client.ipv4.ip"
+                }
+            }
+        ],
+        "prefix":
+            "IOC common"
+    },
+    'compromised/account_group': {
         "container": {
             "name": "login",
             "start_time": "dateDetected",
@@ -70,10 +93,9 @@ INCIDENT_COLLECTIONS_INFO = {
                 "start_time": "dateDetected",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "deviceCustomString1": "login",
-                    "deviceCustomString1label": "*login",
-                    "deviceCustomString2": "password",
-                    "deviceCustomString2label": "*password",
+                    "Login": "login",
+                    "Password": "password",  # pragma: allowlist secret
+                    "Events": "events",
                     "destinationHostName": "domain",
                     "destinationAddress": "client.ipv4.ip"
                 }
@@ -84,10 +106,8 @@ INCIDENT_COLLECTIONS_INFO = {
                 "cef": {
                     **BASE_ADDITIONAL_INFO,
                     "duser": "dropEmail.email",
-                    "deviceCustomString4": "company",
-                    "deviceCustomString4label": "*company",
-                    "deviceCustomString5": "device",
-                    "deviceCustomString5label": "*device",
+                    "Company": "company",
+                    "Device": "device",
                 }
             }
         ],
@@ -107,10 +127,8 @@ INCIDENT_COLLECTIONS_INFO = {
                 "start_time": "uploadTime",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "deviceCustomString1": "leakName",
-                    "deviceCustomString1label": "*leakName",
-                    "deviceCustomString2": "password",
-                    "deviceCustomString2label": "*password"
+                    "leakName": "leakName",
+                    "password": "password",
                 }
             }
         ],
@@ -136,7 +154,7 @@ INCIDENT_COLLECTIONS_INFO = {
                 "start_time": "dateDetected",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "deviceCustomString1": "cardInfo.number",
+                    "Card Number": "cardInfo.number",
                     "deviceCustomString1label": "*cardNumber",
                     "deviceCustomString2": "cardInfo.issuer.issuer",
                     "deviceCustomString2label": "*issuer",
