@@ -106,7 +106,7 @@ INCIDENT_COLLECTIONS_INFO = {
                 "cef": {
                     **BASE_CEF_LIST,
                     "leakName": "leakName",
-                    "password": "password",
+                    "password": "password",  # pragma: allowlist secret
                 },
             }
         ],
