@@ -1,23 +1,25 @@
+# Copyright (c) 2025 Splunk Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # File: groupibthreatintelligenceandattribution_consts.py
 #
 # Licensed under Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.txt)
 #
 BASE_CONTAINER = {"tags": ["gib"]}
-BASE_ARTIFACT = {
-    "label": "gib indicator",
-    "tags": ["gib"]
-}
-BASE_MAPPING_CONTAINER = {
-    "source_data_identifier": "id",
-    "sensitivity": "evaluation.tlp",
-    "severity": "evaluation.severity"
-}
+BASE_ARTIFACT = {"label": "gib indicator", "tags": ["gib"]}
+BASE_MAPPING_CONTAINER = {"source_data_identifier": "id", "sensitivity": "evaluation.tlp", "severity": "evaluation.severity"}
 BASE_MAPPING_ARTIFACT = {}
-BASE_CEF_LIST = {
-    "deviceVendor": "*Group IB",
-    "deviceProduct": "*Threat Intelligence and Attribution",
-    "deviceSeverity": "evaluation.severity"
-}
+BASE_CEF_LIST = {"deviceVendor": "*Group IB", "deviceProduct": "*Threat Intelligence and Attribution", "deviceSeverity": "evaluation.severity"}
 BASE_CNC = {
     **BASE_CEF_LIST,
     "sourceHostName": "cnc.domain",
@@ -32,7 +34,7 @@ BASE_CNC = {
     "deviceCustomString4": "cnc.ipv4.city",
     "deviceCustomString4label": "*city",
     "deviceCustomString5": "cnc.ipv4.asn",
-    "deviceCustomString5label": "*asn"
+    "deviceCustomString5label": "*asn",
 }
 BASE_ADDITIONAL_INFO = {
     **BASE_CEF_LIST,
@@ -42,22 +44,13 @@ BASE_ADDITIONAL_INFO = {
     "deviceCustomString2label": "*threatActor",
     "deviceCustomString3": "threatActor.isAPT",
     "deviceCustomString3label": "*threatActorIsApt",
-    "requestUrl": "portalLink"
+    "requestUrl": "portalLink",
 }
 INCIDENT_COLLECTIONS_INFO = {
-    'ioc/common': {
-        "container": {
-            "name": "login",
-            "start_time": "dateDetected",
-            "last_fetch": "seqUpdate"
-        },
+    "ioc/common": {
+        "container": {"name": "login", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
-            {
-                "name": "*cnc",
-                "type": "*network",
-                "start_time": "dateDetected",
-                "cef": BASE_CNC
-            },
+            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
             {
                 "name": "*IOC common",
                 "type": "*network",
@@ -67,26 +60,16 @@ INCIDENT_COLLECTIONS_INFO = {
                     "*id": "id",
                     "*threatList.name": "threatList.name",
                     "destinationHostName": "domain",
-                    "destinationAddress": "client.ipv4.ip"
-                }
-            }
-        ],
-        "prefix":
-            "IOC common"
-    },
-    'compromised/account_group': {
-        "container": {
-            "name": "login",
-            "start_time": "dateDetected",
-            "last_fetch": "seqUpdate"
-        },
-        "artifacts": [
-            {
-                "name": "*cnc",
-                "type": "*network",
-                "start_time": "dateDetected",
-                "cef": BASE_CNC
+                    "destinationAddress": "client.ipv4.ip",
+                },
             },
+        ],
+        "prefix": "IOC common",
+    },
+    "compromised/account_group": {
+        "container": {"name": "login", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
             {
                 "name": "*Compromised account",
                 "type": "*network",
@@ -97,8 +80,8 @@ INCIDENT_COLLECTIONS_INFO = {
                     "Password": "password",  # pragma: allowlist secret
                     "Events": "events",
                     "destinationHostName": "domain",
-                    "destinationAddress": "client.ipv4.ip"
-                }
+                    "destinationAddress": "client.ipv4.ip",
+                },
             },
             {
                 "name": "*Additional info",
@@ -108,18 +91,13 @@ INCIDENT_COLLECTIONS_INFO = {
                     "duser": "dropEmail.email",
                     "Company": "company",
                     "Device": "device",
-                }
-            }
+                },
+            },
         ],
-        "prefix":
-            "Compromised Account"
+        "prefix": "Compromised Account",
     },
-    'compromised/breached': {
-        "container": {
-            "name": "email",
-            "start_time": "uploadTime",
-            "last_fetch": "updateTime"
-        },
+    "compromised/breached": {
+        "container": {"name": "email", "start_time": "uploadTime", "last_fetch": "updateTime"},
         "artifacts": [
             {
                 "name": "*Data breach",
@@ -128,26 +106,16 @@ INCIDENT_COLLECTIONS_INFO = {
                 "cef": {
                     **BASE_CEF_LIST,
                     "leakName": "leakName",
-                    "password": "password",
-                }
+                    "password": "password",  # pragma: allowlist secret
+                },
             }
         ],
-        "prefix":
-            "Data Breach"
+        "prefix": "Data Breach",
     },
-    'compromised/card': {
-        "container": {
-            "name": "cardInfo.number",
-            "start_time": "dateDetected",
-            "last_fetch": "seqUpdate"
-        },
+    "compromised/card": {
+        "container": {"name": "cardInfo.number", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
-            {
-                "name": "*cnc",
-                "type": "*network",
-                "start_time": "dateDetected",
-                "cef": BASE_CNC
-            },
+            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
             {
                 "name": "*Compromised card",
                 "type": "*other",
@@ -165,18 +133,13 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString5": "cardInfo.validThru",
                     "deviceCustomString5label": "*validThru",
                     "deviceCustomNumber1": "cardInfo.cvv",
-                    "deviceCustomNumber1label": "*cvv"
-                }
+                    "deviceCustomNumber1label": "*cvv",
+                },
             },
             {
                 "name": "*Owner",
                 "type": "*other",
-                "cef": {
-                    **BASE_CEF_LIST,
-                    "deviceCustomString1": "owner.name",
-                    "deviceCustomString1label": "*name",
-                    "suser": "owner.email"
-                }
+                "cef": {**BASE_CEF_LIST, "deviceCustomString1": "owner.name", "deviceCustomString1label": "*name", "suser": "owner.email"},
             },
             {
                 "name": "*Additional info",
@@ -185,18 +148,13 @@ INCIDENT_COLLECTIONS_INFO = {
                     **BASE_ADDITIONAL_INFO,
                     "deviceCustomString4": "company",
                     "deviceCustomString4label": "*company",
-                }
-            }
+                },
+            },
         ],
-        "prefix":
-            "Compromised Card",
+        "prefix": "Compromised Card",
     },
-    'malware/targeted_malware': {
-        "container": {
-            "name": "md5",
-            "start_time": "date",
-            "last_fetch": "seqUpdate"
-        },
+    "malware/targeted_malware": {
+        "container": {"name": "md5", "start_time": "date", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Targeted malware",
@@ -214,8 +172,8 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString3": "sha1",
                     "deviceCustomString3label": "*sha1",
                     "deviceCustomString4": "sha256",
-                    "deviceCustomString4label": "*sha256"
-                }
+                    "deviceCustomString4label": "*sha256",
+                },
             },
             {
                 "name": "*Additional info",
@@ -226,18 +184,13 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString4label": "*source",
                     "deviceCustomString5": "company",
                     "deviceCustomString5label": "*company",
-                }
-            }
+                },
+            },
         ],
-        "prefix":
-            "Targeted Malware"
+        "prefix": "Targeted Malware",
     },
-    'osi/public_leak': {
-        "container": {
-            "name": "hash",
-            "start_time": "created",
-            "last_fetch": "seqUpdate"
-        },
+    "osi/public_leak": {
+        "container": {"name": "hash", "start_time": "created", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Additional info",
@@ -250,19 +203,14 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString1label": "*language",
                     "deviceCustomString2": "matches",
                     "deviceCustomString2label": "*matches",
-                    "requestUrl": "portalLink"
-                }
+                    "requestUrl": "portalLink",
+                },
             }
         ],
-        "prefix":
-            "Public Leak"
+        "prefix": "Public Leak",
     },
-    'osi/git_leak': {
-        "container": {
-            "name": "name",
-            "start_time": "dateDetected",
-            "last_fetch": "seqUpdate"
-        },
+    "osi/git_leak": {
+        "container": {"name": "name", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Additional info",
@@ -276,19 +224,14 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString2label": "*repository",
                     "deviceCustomString3": "matchesType",
                     "deviceCustomString3label": "*matchesType",
-                    "requestUrl": "file"
-                }
+                    "requestUrl": "file",
+                },
             }
         ],
-        "prefix":
-            "Git Leak"
+        "prefix": "Git Leak",
     },
-    'bp/phishing': {
-        "container": {
-            "name": "phishingDomain.domain",
-            "start_time": "dateDetected",
-            "last_fetch": "seqUpdate"
-        },
+    "bp/phishing": {
+        "container": {"name": "phishingDomain.domain", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Phishing",
@@ -310,8 +253,8 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString5": "ipv4.asn",
                     "deviceCustomString5label": "*asn",
                     "deviceCustomString6": "phishingDomain.title",
-                    "deviceCustomString6label": "*phishingTitle"
-                }
+                    "deviceCustomString6label": "*phishingTitle",
+                },
             },
             {
                 "name": "*Additional info",
@@ -330,20 +273,14 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString5label": "*targetCategory",
                     "deviceCustomString6": "targetDomain",
                     "deviceCustomString6label": "*targetDomain",
-                    "requestUrl": "portalLink"
-                }
-            }
+                    "requestUrl": "portalLink",
+                },
+            },
         ],
-        "prefix":
-            "Phishing"
+        "prefix": "Phishing",
     },
-    'bp/phishing_kit': {
-        "container": {
-            "name": "hash",
-            "start_time": "dateDetected",
-            "end_time": "dateLastSeen",
-            "last_fetch": "seqUpdate"
-        },
+    "bp/phishing_kit": {
+        "container": {"name": "hash", "start_time": "dateDetected", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Phishing_kit",
@@ -355,8 +292,8 @@ INCIDENT_COLLECTIONS_INFO = {
                     "fileHash": "hash",
                     "sourceDomain": "downloadedFrom.domain",
                     "requestUrl": "downloadedFrom.url",
-                    "duser": "emails"
-                }
+                    "duser": "emails",
+                },
             },
             {
                 "name": "*Additional info",
@@ -371,13 +308,12 @@ INCIDENT_COLLECTIONS_INFO = {
                     "deviceCustomString3label": "*login",
                     "deviceCustomString4": "targetBrand",
                     "deviceCustomString4label": "*targetBrand",
-                    "requestUrl": "portalLink"
-                }
-            }
+                    "requestUrl": "portalLink",
+                },
+            },
         ],
-        "prefix":
-            "Phishing Kit"
-    }
+        "prefix": "Phishing Kit",
+    },
 }
 GIB_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 SPLUNK_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
