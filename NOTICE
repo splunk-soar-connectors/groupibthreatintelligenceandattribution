@@ -1,2 +1,69 @@
 Splunk SOAR Group IB Threat Intelligence
 Copyright (c) Group-IB, 2023-24
+
+Third Party Software Attributions:
+
+Name: certifi
+Version: 2025.1.31
+Author: Kenneth Reitz
+License: MPL-2.0
+
+Name: charset-normalizer
+Version: 3.4.1
+Author:
+License: MIT
+
+Name: cyberintegrations
+Version: 0.7.0
+Author: Сyberintegrations
+License: MIT
+
+Name: dataclasses
+Version: 0.6
+Author: Eric V. Smith
+License: Apache
+
+Name: dateparser
+Version: 1.1.7
+Author: Scrapinghub
+License: BSD
+
+Name: idna
+Version: 3.10
+Author:
+License:
+
+Name: python-dateutil
+Version: 2.9.0.post0
+Author: Gustavo Niemeyer
+License: Dual License
+
+Name: pytz
+Version: 2025.2
+Author: Stuart Bishop
+License: MIT
+
+Name: regex
+Version: 2024.11.6
+Author: Matthew Barnett
+License: Apache Software License
+
+Name: requests
+Version: 2.32.3
+Author: Kenneth Reitz
+License: Apache-2.0
+
+Name: six
+Version: 1.17.0
+Author: Benjamin Peterson
+License: MIT
+
+Name: tzlocal
+Version: 5.3.1
+Author:
+License: MIT
+
+Name: urllib3
+Version: 2.3.0
+Author:
+License:
