@@ -16,8 +16,8 @@
         }
     ],
     "license": "Copyright (c) Group-IB, 2023-24",
-    "app_version": "2.0.0",
-    "utctime_updated": "2024-04-01T13:50:18.570548Z",
+    "app_version": "2.0.1",
+    "utctime_updated": "2025-04-28T22:36:36.327276Z",
     "package_name": "phantom_groupibthreatintelligenceandattribution",
     "main_module": "groupibthreatintelligenceandattribution_connector.py",
     "min_phantom_version": "5.4.0",

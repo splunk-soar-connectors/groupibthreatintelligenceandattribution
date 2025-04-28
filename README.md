@@ -1,7 +1,7 @@
 # Group IB Threat Intelligence
 
 Publisher: Group-IB \
-Connector Version: 2.0.0 \
+Connector Version: 2.0.1 \
 Product Vendor: Group-IB \
 Product Name: Threat Intelligence \
 Minimum Product Version: 5.4.0
