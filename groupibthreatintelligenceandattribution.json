@@ -164,39 +164,44 @@
                 "input_file": "wheels/shared/dateparser-1.1.7-py2.py3-none-any.whl"
             },
             {
-                "module": "python_dateutil",
-                "input_file": "wheels/shared/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"
-            },
-            {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2024.1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",
-                "input_file": "wheels/py39/regex-2024.5.15-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "six",
-                "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
+                "input_file": "wheels/py39/regex-2024.11.6-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "tzlocal",
-                "input_file": "wheels/py3/tzlocal-5.2-py3-none-any.whl"
+                "input_file": "wheels/py3/tzlocal-5.3.1-py3-none-any.whl"
             }
         ]
     },
-    "copied_from_id": 1,
-    "copied_from_version": "1.0.4",
-    "directory": "development_d49748ff-225b-49be-8ffb-700bd5f1895d",
-    "version": 1,
-    "appname": "-",
-    "executable": "spawn3",
-    "disabled": false,
-    "pip3_dependencies": {
+    "pip313_dependencies": {
         "wheel": [
             {
                 "module": "cyberintegrations",
                 "input_file": "wheels/py3/cyberintegrations-0.7.0-py3-none-any.whl"
+            },
+            {
+                "module": "dataclasses",
+                "input_file": "wheels/py3/dataclasses-0.6-py3-none-any.whl"
+            },
+            {
+                "module": "dateparser",
+                "input_file": "wheels/shared/dateparser-1.1.7-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pytz",
+                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+            },
+            {
+                "module": "regex",
+                "input_file": "wheels/py313/regex-2024.11.6-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "tzlocal",
+                "input_file": "wheels/py3/tzlocal-5.3.1-py3-none-any.whl"
             }
         ]
     }
