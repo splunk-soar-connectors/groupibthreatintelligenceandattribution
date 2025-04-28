@@ -149,13 +149,6 @@
             "versions": "EQ(*)"
         }
     ],
-    "copied_from_id": 1,
-    "copied_from_version": "1.0.4",
-    "directory": "development_d49748ff-225b-49be-8ffb-700bd5f1895d",
-    "version": 1,
-    "appname": "-",
-    "executable": "spawn3",
-    "disabled": false,
     "pip39_dependencies": {
         "wheel": [
             {
