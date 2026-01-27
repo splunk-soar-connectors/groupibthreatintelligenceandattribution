@@ -1,10 +1,10 @@
-# Group IB Threat Intelligence
+# GroupIB_TI
 
 Publisher: Group-IB \
-Connector Version: 2.0.1 \
+Connector Version: 3.0.0 \
 Product Vendor: Group-IB \
 Product Name: Threat Intelligence \
-Minimum Product Version: 5.4.0
+Minimum Product Version: 6.3.0
 
 This app ingests incidents and IOCs from Group-IB Threat Intelligence
 
@@ -43,7 +43,7 @@ Group-IB.
 
 ### Configuration variables
 
-This table lists the configuration variables required to operate Group IB Threat Intelligence. These variables are specified when configuring a Threat Intelligence asset in Splunk SOAR.
+This table lists the configuration variables required to operate GroupIB_TI. These variables are specified when configuring a Threat Intelligence asset in Splunk SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
@@ -51,17 +51,51 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 **api_key** | required | password | API key |
 **base_url** | required | string | Group-IB API URL |
 **insecure** | optional | boolean | Verify server certificate |
-**ioc_common** | optional | boolean | IOC_COMMON |
-**ioc_common_start** | optional | string | Date to start |
-**compromised_account_group** | optional | boolean | Compromised Accounts |
-**compromised_account_group_start** | optional | string | Date to start |
-**compromised_breached** | optional | boolean | Compromised Breached |
-**compromised_breached_start** | optional | string | Date to start |
+**ioc_common** | optional | boolean | IOC/Common collection |
+**ioc_common_start** | optional | string | Date to start for ioc/common |
+**compromised_account_group** | optional | boolean | Compromised/Account Group collection |
+**compromised_account_group_start** | optional | string | Date to start for compromised/account_group |
+**compromised_account_group_probable_corporate_access** | optional | boolean | Filter by probable corporate access for compromised/account_group |
+**compromised_account_group_unique** | optional | boolean | Filter by unique detections for compromised/account_group |
+**compromised_account_group_combolist** | optional | boolean | Filter by combolist detections for compromised/account_group |
+**compromised_breached** | optional | boolean | Compromised/Breached collection |
+**compromised_breached_start** | optional | string | Date to start for compromised/breached |
+**compromised_bank_card_group** | optional | boolean | Compromised/Bank Card Group collection |
+**compromised_bank_card_group_start** | optional | string | Date to start for compromised/bank_card_group |
+**compromised_masked_card** | optional | boolean | Compromised/Masked Card collection |
+**compromised_masked_card_start** | optional | string | Date to start for compromised/masked_card |
+**malware_config** | optional | boolean | Malware/Config collection |
+**malware_config_start** | optional | string | Date to start for malware/config |
+**osi_public_leak** | optional | boolean | OSI/Public Leak collection |
+**osi_public_leak_start** | optional | string | Date to start for osi/public_leak |
+**osi_git_repository** | optional | boolean | OSI/Git Repository collection |
+**osi_git_repository_start** | optional | string | Date to start for osi/git_repository |
+**suspicious_ip_scanner** | optional | boolean | Suspicious IP/Scanner collection |
+**suspicious_ip_scanner_start** | optional | string | Date to start for suspicious_ip/scanner |
+**suspicious_ip_tor_node** | optional | boolean | Suspicious IP/Tor Node collection |
+**suspicious_ip_tor_node_start** | optional | string | Date to start for suspicious_ip/tor_node |
+**suspicious_ip_open_proxy** | optional | boolean | Suspicious IP/Open Proxy collection |
+**suspicious_ip_open_proxy_start** | optional | string | Date to start for suspicious_ip/open_proxy |
+**suspicious_ip_socks_proxy** | optional | boolean | Suspicious IP/Socks Proxy collection |
+**suspicious_ip_socks_proxy_start** | optional | string | Date to start for suspicious_ip/socks_proxy |
+**suspicious_ip_vpn** | optional | boolean | Suspicious IP/VPN collection |
+**suspicious_ip_vpn_start** | optional | string | Date to start for suspicious_ip/vpn |
+**attacks_ddos** | optional | boolean | Attacks/DDoS collection |
+**attacks_ddos_start** | optional | string | Date to start for attacks/ddos |
+**attacks_deface** | optional | boolean | Attacks/Deface collection |
+**attacks_deface_start** | optional | string | Date to start for attacks/deface |
+**attacks_phishing_group** | optional | boolean | Attacks/Phishing Group collection |
+**attacks_phishing_group_start** | optional | string | Date to start for attacks/phishing_group |
+**attacks_phishing_kit** | optional | boolean | Attacks/Phishing Kit collection |
+**attacks_phishing_kit_start** | optional | string | Date to start for attacks/phishing_kit |
 
 ### Supported Actions
 
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality
+[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality \
+[whois_ip](#action-whoisip) - Execute whois lookup on the given IP address \
+[whois_domain](#action-whoisdomain) - Execute whois lookup on the given domain name \
+[ip scoring](#action-ip-scoring) - Get risk score for an IP address from Group-IB Threat Intelligence
 
 ## action: 'test connectivity'
 
@@ -69,8 +103,6 @@ Validate the asset configuration for connectivity using supplied configuration
 
 Type: **test** \
 Read only: **True**
-
-This action make a simple API request to Group-IB with provided credentials to validate them.
 
 #### Action Parameters
 
@@ -91,21 +123,118 @@ Read only: **True**
 
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**container_id** | optional | The parameter isn't used in this app | string | |
+**container_id** | optional | Container IDs to limit the ingestion to. | string | |
 **start_time** | optional | Start of time range, in epoch time (milliseconds) | numeric | |
 **end_time** | optional | End of time range, in epoch time (milliseconds) | numeric | |
-**container_count** | optional | Maximum number of container records to query for | numeric | |
-**artifact_count** | optional | Maximum number of artifact records to query for | numeric | |
+**container_count** | optional | Maximum number of container records to query for. | numeric | |
+**artifact_count** | optional | Maximum number of artifact records to query for. | numeric | |
 
 #### Action Output
 
 No Output
 
+## action: 'whois_ip'
+
+Execute whois lookup on the given IP address
+
+Type: **investigate** \
+Read only: **True**
+
+#### Action Parameters
+
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip** | required | IP to query | string | `ip` |
+
+#### Action Output
+
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.parameter.ip | string | `ip` | |
+action_result.data.\*.ipRangeStart | string | `ip` | |
+action_result.data.\*.ipRangeEnd | string | `ip` | |
+action_result.data.\*.asn | string | `as_number` | |
+action_result.data.\*.orgName | string | | |
+action_result.data.\*.netname | string | | |
+action_result.data.\*.country | string | `country` | |
+action_result.data.\*.e-mail | string | `email` | |
+action_result.data.\*.firstSeen | string | `date` | |
+action_result.data.\*.lastSeen | string | `date` | |
+action_result.status | string | | |
+action_result.message | string | | |
+summary.total_objects_successful | numeric | | |
+summary.total_objects | numeric | | |
+
+## action: 'whois_domain'
+
+Execute whois lookup on the given domain name
+
+Type: **investigate** \
+Read only: **True**
+
+#### Action Parameters
+
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**domain** | required | The domain name to look up (e.g., example.com) | string | `domain` |
+
+#### Action Output
+
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.parameter.domain | string | `domain` | |
+action_result.data.\*.creationDate | string | `date` | |
+action_result.data.\*.updatedDate | string | `date` | |
+action_result.data.\*.expirationDate | string | `date` | |
+action_result.data.\*.registrar | string | | |
+action_result.data.\*.whoisServer | string | | |
+action_result.data.\*.registrantName | string | | |
+action_result.data.\*.registrantOrg | string | | |
+action_result.data.\*.registrantCountry | string | `country` | |
+action_result.data.\*.registrantState | string | | |
+action_result.data.\*.registrantCity | string | | |
+action_result.data.\*.registrantAddress | string | | |
+action_result.data.\*.registrantZipcode | string | | |
+action_result.data.\*.registrantPhone | string | | |
+action_result.data.\*.domainStatus | string | | |
+action_result.data.\*.nameServers | string | `domain` | |
+action_result.status | string | | |
+action_result.message | string | | |
+summary.total_objects_successful | numeric | | |
+summary.total_objects | numeric | | |
+
+## action: 'ip scoring'
+
+Get risk score for an IP address from Group-IB Threat Intelligence
+
+Type: **investigate** \
+Read only: **True**
+
+Queries the Group-IB Threat Intelligence API to retrieve the risk score associated with a given IP address.
+
+#### Action Parameters
+
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**ip** | required | IP address to score | string | `ip` |
+
+#### Action Output
+
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.data.\*.ip | string | `ip` | |
+action_result.data.\*.score | numeric | | |
+action_result.status | string | | |
+action_result.message | string | | |
+action_result.parameter.ip | string | `ip` | |
+summary.total_objects_successful | numeric | | |
+summary.total_objects | numeric | | |
+
 ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
