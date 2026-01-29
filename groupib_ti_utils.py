@@ -20,20 +20,20 @@ def config_to_int_flag(config_value):
         return 1 if config_value else 0
     if isinstance(config_value, str):
         return 1 if config_value.lower() in ("true", "1", "yes") else 0
-    if isinstance(config_value, (int, float)):
+    if isinstance(config_value, int | float):
         return 1 if config_value else 0
     return 0
 
 
 def get_nested_value(data, path, default=None):
     """Get value from nested dict using dot notation path.
-    
+
     Example: get_nested_value({"a": {"b": 1}}, "a.b") returns 1
     """
     if not data or not isinstance(data, dict):
         return default
 
-    keys = path.split('.')
+    keys = path.split(".")
     value = data
 
     for key in keys:
@@ -58,7 +58,7 @@ def get_first_value(data_source, key):
     return None
 
 
-def get_joined_values(data_source, key, separator=', '):
+def get_joined_values(data_source, key, separator=", "):
     """Join all values from a list in data_source."""
     if not data_source or not isinstance(data_source, dict):
         return None
@@ -77,7 +77,7 @@ def extract_cef_fields(data_dict, cef_dict, field_mappings, stringify_numbers=Tr
     for cef_key, data_key in field_mappings.items():
         value = data_dict.get(data_key)
         if value is not None:
-            if stringify_numbers and isinstance(value, (int, float)):
+            if stringify_numbers and isinstance(value, int | float):
                 cef_dict[cef_key] = str(value)
             else:
                 cef_dict[cef_key] = value
@@ -93,7 +93,7 @@ def extract_nested_cef_fields(data_dict, cef_dict, field_mappings, stringify_num
     for cef_key, data_path in field_mappings.items():
         value = get_nested_value(data_dict, data_path)
         if value is not None:
-            if stringify_numbers and isinstance(value, (int, float)):
+            if stringify_numbers and isinstance(value, int | float):
                 cef_dict[cef_key] = str(value)
             else:
                 cef_dict[cef_key] = value
@@ -114,7 +114,7 @@ def safe_get_list(data, key):
     return []
 
 
-def join_list_values(values, separator=', '):
+def join_list_values(values, separator=", "):
     """Join a list of values into a string."""
     if not values or not isinstance(values, list):
         return None
@@ -171,15 +171,9 @@ def extract_names_from_array(items, name_key="name"):
     return ", ".join(names) if names else None
 
 
-def create_artifact(name, cef, artifact_type="*other", label="gib_info",
-                    start_time=None, end_time=None, severity=None, **kwargs):
+def create_artifact(name, cef, artifact_type="*other", label="gib_info", start_time=None, end_time=None, severity=None, **kwargs):
     """Factory function for creating artifact dictionaries."""
-    artifact = {
-        "name": name,
-        "type": artifact_type,
-        "label": label,
-        "cef": cef
-    }
+    artifact = {"name": name, "type": artifact_type, "label": label, "cef": cef}
     if start_time:
         artifact["start_time"] = start_time
     if end_time:

@@ -13,18 +13,11 @@ INDICATOR_COLLECTIONS = ["ioc/common"]
 INFO_COLLECTIONS = ["compromised/account_group"]
 
 # Mappings
-BASE_MAPPING_CONTAINER = {
-    "source_data_identifier": "id",
-    "sensitivity": "amber",
-    "severity": "evaluation.severity"
-}
+BASE_MAPPING_CONTAINER = {"source_data_identifier": "id", "sensitivity": "amber", "severity": "evaluation.severity"}
 BASE_MAPPING_ARTIFACT = {}
 
 # CEF base fields
-BASE_CEF_LIST = {
-    "deviceVendor": "*Group-IB",
-    "deviceProduct": "*Threat Intelligence"
-}
+BASE_CEF_LIST = {"deviceVendor": "*Group-IB", "deviceProduct": "*Threat Intelligence"}
 
 BASE_CNC = {
     **BASE_CEF_LIST,
@@ -91,19 +84,14 @@ SUSPICIOUS_IP_BASE_CEF = {
     "Portal Link": "portalLink",
 }
 
-SUSPICIOUS_IP_BASE_CONTAINER = {
-    "name": "id",
-    "start_time": "dateFirstSeen",
-    "end_time": "dateLastSeen",
-    "last_fetch": "seqUpdate"
-}
+SUSPICIOUS_IP_BASE_CONTAINER = {"name": "id", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"}
 
 SUSPICIOUS_IP_COLLECTIONS = [
     "suspicious_ip/scanner",
     "suspicious_ip/tor_node",
     "suspicious_ip/open_proxy",
     "suspicious_ip/socks_proxy",
-    "suspicious_ip/vpn"
+    "suspicious_ip/vpn",
 ]
 
 SUSPICIOUS_IP_ARRAY_FIELDS = {
@@ -111,66 +99,57 @@ SUSPICIOUS_IP_ARRAY_FIELDS = {
     "suspicious_ip/tor_node": None,
     "suspicious_ip/open_proxy": "sources",
     "suspicious_ip/socks_proxy": None,
-    "suspicious_ip/vpn": "sources"
+    "suspicious_ip/vpn": "sources",
 }
 
 # Collection configurations
 INCIDENT_COLLECTIONS_INFO = {
     "ioc/common": {
-        "container": {
-            "name": "id",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "last_fetch": "seqUpdate"
-        },
+        "container": {"name": "id", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "prefix": "IOC common",
     },
-
     "compromised/account_group": {
-        "container": {
-            "name": "service.host",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "last_fetch": "seqUpdate"
-        },
-        "artifacts": [{
-            "name": "*Compromised account",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **BASE_CEF_LIST,
-                "externalId": "id",
-                "First_Seen": "dateFirstSeen",
-                "Last_Seen": "dateLastSeen",
-                "Login": "login",
-                "Password": "password",  # pragma: allowlist secret
-                "Login URL": "service.url",
-                "Host": "service.host",
-                "Credibility": "evaluation.credibility",
-                "Reliability": "evaluation.reliability",
-                "Admiralty Code": "evaluation.admiraltyCode"
-            },
-        }],
+        "container": {"name": "service.host", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {
+                "name": "*Compromised account",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "First_Seen": "dateFirstSeen",
+                    "Last_Seen": "dateLastSeen",
+                    "Login": "login",
+                    "Password": "password",  # pragma: allowlist secret
+                    "Login URL": "service.url",
+                    "Host": "service.host",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                },
+            }
+        ],
         "prefix": "Compromised Account",
     },
-
     "compromised/breached": {
         "container": {"name": "email", "start_time": "uploadTime", "last_fetch": "updateTime"},
-        "artifacts": [{
-            "name": "*Data breach",
-            "type": "*network",
-            "start_time": "uploadTime",
-            "cef": {
-                **BASE_CEF_LIST,
-                "externalId": "id",
-                "Email": "email",
-                "Leak Name": "leakName",
-                "Password": "password",  # pragma: allowlist secret
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Data breach",
+                "type": "*network",
+                "start_time": "uploadTime",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "Email": "email",
+                    "Leak Name": "leakName",
+                    "Password": "password",  # pragma: allowlist secret
+                },
+            }
+        ],
         "prefix": "Data Breach",
     },
-
     "compromised/bank_card_group": {
         "container": {"name": "cardInfo.number", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -200,7 +179,6 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "Bank Card Group",
     },
-
     "compromised/masked_card": {
         "container": {"name": "cardInfo.number", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -275,7 +253,6 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "Masked Card",
     },
-
     "malware/config": {
         "container": {"name": "hash", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -298,129 +275,135 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "Malware Config",
     },
-
     "osi/public_leak": {
         "container": {"name": "hash", "start_time": "created", "last_fetch": "seqUpdate"},
-        "artifacts": [{
-            "name": "*Public leak info",
-            "type": "*other",
-            "start_time": "created",
-            "cef": {
-                **BASE_CEF_LIST,
-                "externalId": "id",
-                "fileHash": "hash",
-                "File Size": "size",
-                "Language": "language",
-                "Matches": "matches",
-                "Created": "created",
-                "Portal Link": "portalLink",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Public leak info",
+                "type": "*other",
+                "start_time": "created",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "fileHash": "hash",
+                    "File Size": "size",
+                    "Language": "language",
+                    "Matches": "matches",
+                    "Created": "created",
+                    "Portal Link": "portalLink",
+                },
+            }
+        ],
         "prefix": "Public Leak",
     },
-
     "osi/git_repository": {
         "container": {"name": "name", "start_time": "dateCreated", "end_time": "dateDetected", "last_fetch": "seqUpdate"},
-        "artifacts": [{
-            "name": "*Git repository info",
-            "type": "*other",
-            "start_time": "dateCreated",
-            "end_time": "dateDetected",
-            "cef": {
-                **BASE_CEF_LIST,
-                "externalId": "id",
-                "Repository URL": "name",
-                "Source": "source",
-                "Date Created": "dateCreated",
-                "Date Detected": "dateDetected",
-                "Contributors Count": "numberOf.contributors",
-                "Files Count": "numberOf.files",
-                "Admiralty Code": "evaluation.admiraltyCode",
-                "Credibility": "evaluation.credibility",
-                "Reliability": "evaluation.reliability",
-                "TTL": "evaluation.ttl",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Git repository info",
+                "type": "*other",
+                "start_time": "dateCreated",
+                "end_time": "dateDetected",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "Repository URL": "name",
+                    "Source": "source",
+                    "Date Created": "dateCreated",
+                    "Date Detected": "dateDetected",
+                    "Contributors Count": "numberOf.contributors",
+                    "Files Count": "numberOf.files",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "TTL": "evaluation.ttl",
+                },
+            }
+        ],
         "prefix": "Git Repository",
     },
-
     "suspicious_ip/scanner": {
         "container": SUSPICIOUS_IP_BASE_CONTAINER,
-        "artifacts": [{
-            "name": "*Suspicious IP Scanner",
-            "type": "*network",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **SUSPICIOUS_IP_BASE_CEF,
-                "Categories": "categories",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Scanner",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Categories": "categories",
+                },
+            }
+        ],
         "prefix": "Suspicious IP Scanner",
     },
-
     "suspicious_ip/tor_node": {
         "container": SUSPICIOUS_IP_BASE_CONTAINER,
-        "artifacts": [{
-            "name": "*Suspicious IP Tor Node",
-            "type": "*network",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **SUSPICIOUS_IP_BASE_CEF,
-                "Source": "source",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Tor Node",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Source": "source",
+                },
+            }
+        ],
         "prefix": "Suspicious IP Tor Node",
     },
-
     "suspicious_ip/open_proxy": {
         "container": SUSPICIOUS_IP_BASE_CONTAINER,
-        "artifacts": [{
-            "name": "*Suspicious IP Open Proxy",
-            "type": "*network",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **SUSPICIOUS_IP_BASE_CEF,
-                "destinationPort": "port",
-                "Sources": "sources",
-                "Proxy Type": "type",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Open Proxy",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "destinationPort": "port",
+                    "Sources": "sources",
+                    "Proxy Type": "type",
+                },
+            }
+        ],
         "prefix": "Suspicious IP Open Proxy",
     },
-
     "suspicious_ip/socks_proxy": {
         "container": SUSPICIOUS_IP_BASE_CONTAINER,
-        "artifacts": [{
-            "name": "*Suspicious IP SOCKS Proxy",
-            "type": "*network",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **SUSPICIOUS_IP_BASE_CEF,
-                "Source": "source",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Suspicious IP SOCKS Proxy",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Source": "source",
+                },
+            }
+        ],
         "prefix": "Suspicious IP SOCKS Proxy",
     },
-
     "suspicious_ip/vpn": {
         "container": SUSPICIOUS_IP_BASE_CONTAINER,
-        "artifacts": [{
-            "name": "*Suspicious IP VPN",
-            "type": "*network",
-            "start_time": "dateFirstSeen",
-            "end_time": "dateLastSeen",
-            "cef": {
-                **SUSPICIOUS_IP_BASE_CEF,
-                "Sources": "sources",
-            },
-        }],
+        "artifacts": [
+            {
+                "name": "*Suspicious IP VPN",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Sources": "sources",
+                },
+            }
+        ],
         "prefix": "Suspicious IP VPN",
     },
-
     "attacks/ddos": {
         "container": {"name": "id", "start_time": "dateBegin", "end_time": "dateEnd", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -465,7 +448,6 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "DDoS Attack",
     },
-
     "attacks/deface": {
         "container": {"name": "id", "start_time": "date", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -508,7 +490,6 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "Deface Attack",
     },
-
     "attacks/phishing_group": {
         "container": {"name": "domain", "start_time": "date.detected", "end_time": "date.blocked", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -553,7 +534,6 @@ INCIDENT_COLLECTIONS_INFO = {
         ],
         "prefix": "Phishing",
     },
-
     "attacks/phishing_kit": {
         "container": {"name": "hash", "start_time": "dateDetected", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
@@ -596,9 +576,5 @@ BASE_MAX_ARTIFACTS_COUNT = 1000
 
 # Error messages
 ERROR_CODE_MESSAGE = "Error code unavailable"
-ERROR_MESSAGE_UNAVAILABLE = (
-    "Error message unavailable. Please check the asset configuration and/or action parameters"
-)
-GIB_STATE_FILE_CORRUPT_ERROR = (
-    "Unexpected file format when getting data. Resetting the state file. Please try again."
-)
+ERROR_MESSAGE_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and/or action parameters"
+GIB_STATE_FILE_CORRUPT_ERROR = "Unexpected file format when getting data. Resetting the state file. Please try again."

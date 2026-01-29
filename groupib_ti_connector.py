@@ -37,7 +37,6 @@ class RetVal(tuple):
 
 
 class Groupib_TiConnector(BaseConnector):
-
     def __init__(self):
         super().__init__()
         self._state = None
@@ -48,62 +47,52 @@ class Groupib_TiConnector(BaseConnector):
     def _process_empty_response(self, response, action_result):
         if response.status_code == 200:
             return RetVal(phantom.APP_SUCCESS, {})
-        return RetVal(
-            action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"),
-            None
-        )
+        return RetVal(action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"), None)
 
     def _process_html_response(self, response, action_result):
         status_code = response.status_code
         try:
             soup = BeautifulSoup(response.text, "html.parser")
             error_text = soup.text
-            split_lines = error_text.split('\n')
+            split_lines = error_text.split("\n")
             split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = '\n'.join(split_lines)
+            error_text = "\n".join(split_lines)
         except:
             error_text = "Cannot parse error details"
 
         message = f"Status Code: {status_code}. Data from server:\n{error_text}\n"
-        message = message.replace('{', '{{').replace('}', '}}')
+        message = message.replace("{", "{{").replace("}", "}}")
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_json_response(self, r, action_result):
         try:
             resp_json = r.json()
         except Exception as e:
-            return RetVal(
-                action_result.set_status(phantom.APP_ERROR, f"Unable to parse JSON response. Error: {e}"),
-                None
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Unable to parse JSON response. Error: {e}"), None)
 
         if 200 <= r.status_code < 399:
             return RetVal(phantom.APP_SUCCESS, resp_json)
 
-        message = "Error from server. Status Code: {} Data from server: {}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
-        )
+        message = "Error from server. Status Code: {} Data from server: {}".format(r.status_code, r.text.replace("{", "{{").replace("}", "}}"))
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_response(self, r, action_result):
-        if hasattr(action_result, 'add_debug_data'):
-            action_result.add_debug_data({'r_status_code': r.status_code})
-            action_result.add_debug_data({'r_text': r.text})
-            action_result.add_debug_data({'r_headers': r.headers})
+        if hasattr(action_result, "add_debug_data"):
+            action_result.add_debug_data({"r_status_code": r.status_code})
+            action_result.add_debug_data({"r_text": r.text})
+            action_result.add_debug_data({"r_headers": r.headers})
 
-        if 'json' in r.headers.get('Content-Type', ''):
+        if "json" in r.headers.get("Content-Type", ""):
             return self._process_json_response(r, action_result)
 
-        if 'html' in r.headers.get('Content-Type', ''):
+        if "html" in r.headers.get("Content-Type", ""):
             return self._process_html_response(r, action_result)
 
         if not r.text:
             return self._process_empty_response(r, action_result)
 
         message = "Can't process response from server. Status Code: {} Data from server: {}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
+            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -114,25 +103,20 @@ class Groupib_TiConnector(BaseConnector):
         try:
             request_func = getattr(requests, method)
         except AttributeError:
-            return RetVal(
-                action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"),
-                resp_json
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"), resp_json)
 
         url = self._base_url + endpoint
 
         try:
-            r = request_func(url, verify=config.get('verify_server_cert', False), **kwargs)
+            r = request_func(url, verify=config.get("verify_server_cert", False), **kwargs)
         except Exception as e:
-            return RetVal(
-                action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e}"),
-                resp_json
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e}"), resp_json)
 
         return self._process_response(r, action_result)
 
-    def _setup_generator(self, collection_name, date_start, date_end=None, last_fetch=None,
-                         probable_corporate_access=None, unique=None, combolist=None):
+    def _setup_generator(
+        self, collection_name, date_start, date_end=None, last_fetch=None, probable_corporate_access=None, unique=None, combolist=None
+    ):
         """Set up the data generator for a collection."""
         collection_info = INCIDENT_COLLECTIONS_INFO.get(collection_name, {})
         keys = {**BASE_MAPPING_CONTAINER, **collection_info.get("container", {})}
@@ -142,7 +126,7 @@ class Groupib_TiConnector(BaseConnector):
         if last_fetch:
             if isinstance(last_fetch, dict):
                 seq_update = last_fetch.get(collection_name, 0)
-            elif isinstance(last_fetch, (int, float, str)):
+            elif isinstance(last_fetch, int | float | str):
                 try:
                     seq_update = int(last_fetch) if last_fetch else 0
                 except (ValueError, TypeError):
@@ -154,7 +138,7 @@ class Groupib_TiConnector(BaseConnector):
             seq_update_dict = self._gib_tia_connector.get_seq_update_dict(date_start, collection_name)
             if isinstance(seq_update_dict, dict):
                 seq_update = seq_update_dict.get(collection_name, 0)
-            elif isinstance(seq_update_dict, (int, float, str)):
+            elif isinstance(seq_update_dict, int | float | str):
                 try:
                     seq_update = int(seq_update_dict) if seq_update_dict else 0
                 except (ValueError, TypeError):
@@ -167,9 +151,7 @@ class Groupib_TiConnector(BaseConnector):
         if collection_name == "compromised/breached":
             if not last_fetch:
                 last_fetch = date_start
-            generator = self._gib_tia_connector.create_search_generator(
-                collection_name=collection_name, date_from=last_fetch, date_to=date_end
-            )
+            generator = self._gib_tia_connector.create_search_generator(collection_name=collection_name, date_from=last_fetch, date_to=date_end)
         else:
             generator_kwargs = {"collection_name": collection_name, "sequpdate": seq_update}
 
@@ -209,7 +191,7 @@ class Groupib_TiConnector(BaseConnector):
         return {
             "combolist": combolist == 1 if combolist is not None else False,
             "unique": unique == 1 if unique is not None else False,
-            "probable_corporate_access": probable_corporate_access == 1 if probable_corporate_access is not None else False
+            "probable_corporate_access": probable_corporate_access == 1 if probable_corporate_access is not None else False,
         }
 
     def _get_error_message_from_exception(self, e):
@@ -272,9 +254,7 @@ class Groupib_TiConnector(BaseConnector):
             if collection_name == "compromised/account_group":
                 unique = config_to_int_flag(config.get("compromised_account_group_unique", False))
                 combolist = config_to_int_flag(config.get("compromised_account_group_combolist", False))
-                probable_corporate_access = config_to_int_flag(
-                    config.get("compromised_account_group_probable_corporate_access", False)
-                )
+                probable_corporate_access = config_to_int_flag(config.get("compromised_account_group_probable_corporate_access", False))
                 self._log_filter_status("Probable corporate access", probable_corporate_access)
                 self._log_filter_status("Unique", unique)
                 self._log_filter_status("Combolist", combolist)
@@ -286,8 +266,12 @@ class Groupib_TiConnector(BaseConnector):
                     start_time = parse(str(param.get("start_time"))).strftime(GIB_DATE_FORMAT) if param.get("start_time") else date_start
                     end_time = parse(str(param.get("end_time"))).strftime(GIB_DATE_FORMAT) if param.get("end_time") else None
                     generator, collection_info = self._setup_generator(
-                        collection_name, start_time, end_time,
-                        probable_corporate_access=probable_corporate_access, unique=unique, combolist=combolist
+                        collection_name,
+                        start_time,
+                        end_time,
+                        probable_corporate_access=probable_corporate_access,
+                        unique=unique,
+                        combolist=combolist,
                     )
                 else:
                     generator, collection_info = self._setup_generator(
@@ -297,7 +281,7 @@ class Groupib_TiConnector(BaseConnector):
                         last_fetch=last_fetch,
                         probable_corporate_access=probable_corporate_access,
                         unique=unique,
-                        combolist=combolist
+                        combolist=combolist,
                     )
 
                 for chunk in generator:
@@ -370,11 +354,7 @@ class Groupib_TiConnector(BaseConnector):
                                 artifact["end_time"] = parse(artifact.get("end_time")).strftime(SPLUNK_DATE_FORMAT)
 
                             artifact_severity = artifact.get("severity") or severity
-                            artifacts.append({
-                                **artifact, **base_artifact,
-                                "container_id": container_id,
-                                "severity": artifact_severity
-                            })
+                            artifacts.append({**artifact, **base_artifact, "container_id": container_id, "severity": artifact_severity})
 
                             if is_manual_poll:
                                 artifacts_count += 1
@@ -420,11 +400,11 @@ class Groupib_TiConnector(BaseConnector):
         self.debug_print("action_id", action_id)
 
         action_handlers = {
-            'test_connectivity': self._handle_test_connectivity,
-            'on_poll': self._on_poll,
-            'whois_ip': self._handle_whois_ip,
-            'whois_domain': self._handle_whois_domain,
-            'ip_scoring': self._handle_ip_scoring,
+            "test_connectivity": self._handle_test_connectivity,
+            "on_poll": self._on_poll,
+            "whois_ip": self._handle_whois_ip,
+            "whois_domain": self._handle_whois_domain,
+            "ip_scoring": self._handle_ip_scoring,
         }
 
         handler = action_handlers.get(action_id)
@@ -436,11 +416,7 @@ class Groupib_TiConnector(BaseConnector):
         self._state = self.load_state()
         config = self.get_config()
 
-        self._gib_tia_connector = TIPoller(
-            username=config.get("username"),
-            api_key=config.get("api_key"),
-            api_url=config.get("base_url")
-        )
+        self._gib_tia_connector = TIPoller(username=config.get("username"), api_key=config.get("api_key"), api_url=config.get("base_url"))
         self._gib_tia_connector.set_verify(verify=not config.get("insecure", False))
 
         # Load enabled collections with their start dates
@@ -483,9 +459,9 @@ def main():
     import argparse
 
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -494,21 +470,22 @@ def main():
 
     if username is not None and password is None:
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = Groupib_TiConnector._get_phantom_base_url() + '/login'
+            login_url = Groupib_TiConnector._get_phantom_base_url() + "/login"
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False, timeout=30)  # nosec B501
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
-            data = {'username': username, 'password': password, 'csrfmiddlewaretoken': csrftoken}
-            headers = {'Cookie': 'csrftoken=' + csrftoken, 'Referer': login_url}
+            data = {"username": username, "password": password, "csrfmiddlewaretoken": csrftoken}
+            headers = {"Cookie": "csrftoken=" + csrftoken, "Referer": login_url}
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers, timeout=30)  # nosec B501
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
@@ -522,8 +499,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -531,5 +508,5 @@ def main():
     exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

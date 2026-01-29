@@ -39,7 +39,7 @@ def _process_suspicious_ip_collection(items, artifacts_list, collection_name, de
         "suspicious_ip/tor_node": "Source",
         "suspicious_ip/open_proxy": "Sources",
         "suspicious_ip/socks_proxy": "Source",
-        "suspicious_ip/vpn": "Sources"
+        "suspicious_ip/vpn": "Sources",
     }
 
     for i, item in enumerate(items):
@@ -81,26 +81,27 @@ def _process_suspicious_ip_collection(items, artifacts_list, collection_name, de
 def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, filters=None):
     """Parse artifacts from chunk data based on collection type."""
     if debug_print is None:
+
         def debug_print(msg):
             pass
-    
+
     artifact_keys_list = collection_info.get("artifacts", [])
     artifacts_list = chunk.bulk_parse_portion([{**BASE_MAPPING_ARTIFACT, **a} for a in artifact_keys_list])
-    
+
     # Ensure artifacts_list is always a list (bulk_parse_portion may return None)
     if artifacts_list is None:
         artifacts_list = []
 
     if collection_name == "ioc/common":
         items = get_items_from_chunk(chunk)
-        
+
         while len(artifacts_list) < len(items):
             artifacts_list.append([])
-        
+
         for i, item in enumerate(items):
             if not item:
-                    continue
-            
+                continue
+
             base_start_time = item.get("dateFirstSeen") or None
             base_end_time = item.get("dateLastSeen") or None
 
@@ -119,7 +120,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
 
             ioc_type = item.get("type", "network")
             artifact_type = "*file" if ioc_type == "file" else "*network"
-            
+
             # Normalize IOC lists using utility
             ip_list = normalize_to_list(item.get("ip"))
             url_list = normalize_to_list(item.get("url"))
@@ -128,34 +129,58 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
 
             has_threat_or_malware = bool(base_cef.get("threatName") or base_cef.get("malwareName"))
             non_hash_severity = "high" if has_threat_or_malware else "medium"
-            
+
             new_artifacts = []
-            
+
             # Create IP artifacts
             for ip in filter(None, ip_list):
                 ip_cef = {**base_cef, "destinationAddress": ip}
-                new_artifacts.append(create_artifact(
-                    f"IP: {ip}", ip_cef, artifact_type, "gib_indicator",
-                    base_start_time, base_end_time, non_hash_severity, first_seen=base_start_time
-                ))
+                new_artifacts.append(
+                    create_artifact(
+                        f"IP: {ip}",
+                        ip_cef,
+                        artifact_type,
+                        "gib_indicator",
+                        base_start_time,
+                        base_end_time,
+                        non_hash_severity,
+                        first_seen=base_start_time,
+                    )
+                )
 
             # Create URL artifacts
             for url in filter(None, url_list):
                 url_cef = {**base_cef, "requestUrl": url}
-                new_artifacts.append(create_artifact(
-                    f"URL: {url}", url_cef, artifact_type, "gib_indicator",
-                    base_start_time, base_end_time, non_hash_severity,
-                    first_seen=base_start_time, last_fetch=item.get("seqUpdate")
-                ))
+                new_artifacts.append(
+                    create_artifact(
+                        f"URL: {url}",
+                        url_cef,
+                        artifact_type,
+                        "gib_indicator",
+                        base_start_time,
+                        base_end_time,
+                        non_hash_severity,
+                        first_seen=base_start_time,
+                        last_fetch=item.get("seqUpdate"),
+                    )
+                )
 
             # Create Domain artifacts
             for domain in filter(None, domain_list):
                 domain_cef = {**base_cef, "destinationDnsDomain": domain}
-                new_artifacts.append(create_artifact(
-                    f"Domain: {domain}", domain_cef, artifact_type, "gib_indicator",
-                    base_start_time, base_end_time, non_hash_severity,
-                    first_seen=base_start_time, last_fetch=item.get("seqUpdate")
-                ))
+                new_artifacts.append(
+                    create_artifact(
+                        f"Domain: {domain}",
+                        domain_cef,
+                        artifact_type,
+                        "gib_indicator",
+                        base_start_time,
+                        base_end_time,
+                        non_hash_severity,
+                        first_seen=base_start_time,
+                        last_fetch=item.get("seqUpdate"),
+                    )
+                )
 
             # Create Hash artifacts
             for hash_value in filter(None, hash_list):
@@ -163,28 +188,36 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                 cef_field, hash_type = determine_hash_type(hash_value)
                 if cef_field:
                     hash_cef[cef_field] = hash_value
-                new_artifacts.append(create_artifact(
-                    f"Hash ({hash_type}): {hash_value} ", hash_cef, "*file", "gib_indicator",
-                    base_start_time, severity="high",
-                    first_seen=base_start_time, last_seen=base_end_time, last_fetch=item.get("seqUpdate")
-                ))
+                new_artifacts.append(
+                    create_artifact(
+                        f"Hash ({hash_type}): {hash_value} ",
+                        hash_cef,
+                        "*file",
+                        "gib_indicator",
+                        base_start_time,
+                        severity="high",
+                        first_seen=base_start_time,
+                        last_seen=base_end_time,
+                        last_fetch=item.get("seqUpdate"),
+                    )
+                )
 
             artifacts_list[i] = new_artifacts
-    
+
     elif collection_name == "compromised/account_group":
         items = get_items_from_chunk(chunk)
 
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list) or not artifacts_list[i]:
-                    continue
-            
+                continue
+
             events = safe_get_list(item, "events")
 
             # Get main "*Compromised account" artifact
             compromised_account_artifact = None
             base_start_time = None
             base_end_time = None
-            
+
             if artifacts_list[i]:
                 first_artifact = artifacts_list[i][0]
                 if first_artifact and first_artifact.get("name") == "*Compromised account":
@@ -210,7 +243,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                         if event_cnc.get("domain") or event_cnc.get("url") or get_nested_value(event_cnc, "ipv4.ip"):
                             cnc_data = event_cnc
                             break
-            
+
             # Add CNC fields to main artifact
             if cnc_data and compromised_account_artifact:
                 compromised_cef = compromised_account_artifact.get("cef") or {**BASE_CEF_LIST}
@@ -224,7 +257,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                         compromised_cef["sourceAddress"] = cnc_ipv4.get("ip")
                     extract_ipv4_fields(cnc_ipv4, compromised_cef)
                 compromised_account_artifact["cef"] = compromised_cef
-            
+
             # Set label based on CNC data presence
             # Note: Password masking is handled by universal handler at end of parse_artifacts
             if compromised_account_artifact:
@@ -268,9 +301,9 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                         if applied:
                             source_details_cef["Applied data filter"] = ", ".join(applied)
 
-                    event_artifacts.append(create_artifact(
-                        "Source&Details", source_details_cef, start_time=base_start_time, end_time=base_end_time
-                    ))
+                    event_artifacts.append(
+                        create_artifact("Source&Details", source_details_cef, start_time=base_start_time, end_time=base_end_time)
+                    )
 
                     # Create Host information artifact if indexed data exists
                     indexed_data = get_nested_value(latest_event, "additionalData.indexed") or {}
@@ -284,10 +317,9 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                             if value:
                                 host_info_cef[dest_field] = value
 
-                        event_artifacts.append(create_artifact(
-                            "Host information structured", host_info_cef,
-                            start_time=base_start_time, end_time=base_end_time
-                        ))
+                        event_artifacts.append(
+                            create_artifact("Host information structured", host_info_cef, start_time=base_start_time, end_time=base_end_time)
+                        )
 
             # Build final artifacts list
             final_artifacts = []
@@ -297,15 +329,15 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
                 debug_print(f"Warning: '*Compromised account' artifact not found for item {item.get('id', 'unknown')}")
                 if artifacts_list[i]:
                     final_artifacts.append(artifacts_list[i][0])
-            
+
             final_artifacts.extend(event_artifacts)
             artifacts_list[i] = final_artifacts
-    
+
     elif collection_name == "compromised/bank_card_group":
         items = get_items_from_chunk(chunk)
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
-                    continue
+                continue
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
             additional_artifacts = []
@@ -332,7 +364,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
             for event in item.get("events", []):
                 if not event:
                     continue
-            
+
                 event_card = event.get("cardInfo") or {}
                 event_owner = event.get("owner") or {}
                 event_malware = event.get("malware") or {}
@@ -371,7 +403,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
         items = get_items_from_chunk(chunk)
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
-                    continue
+                continue
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
             additional_artifacts = []
@@ -392,7 +424,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
         items = get_items_from_chunk(chunk)
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
-                    continue
+                continue
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
             additional_artifacts = []
@@ -443,7 +475,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
         items = get_items_from_chunk(chunk)
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
-                    continue
+                continue
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
             additional_artifacts = []
@@ -476,7 +508,7 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
         items = get_items_from_chunk(chunk)
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
-                    continue
+                continue
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
             additional_artifacts = []
@@ -532,11 +564,11 @@ def parse_artifacts(chunk, collection_info, collection_name, debug_print=None, f
         for i, item in enumerate(items):
             if not item or i >= len(artifacts_list):
                 continue
-            
+
             # Ensure artifacts_list[i] is a list (not None)
             if artifacts_list[i] is None:
                 artifacts_list[i] = []
-            
+
             additional_artifacts = []
 
             # Process arrays and join values

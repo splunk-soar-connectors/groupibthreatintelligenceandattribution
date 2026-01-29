@@ -224,8 +224,8 @@ def handle_whois_domain(param, connector):
         if not response or not isinstance(response, dict):
             return action_result.set_status(phantom.APP_ERROR, f"Invalid API response for domain: {domain}")
 
-        top_level_created = response.get('created_at')
-        whois_list = response.get('whois', [])
+        top_level_created = response.get("created_at")
+        whois_list = response.get("whois", [])
 
         if not whois_list:
             return action_result.set_status(phantom.APP_SUCCESS, f"No WHOIS data found for domain: {domain}")
@@ -233,61 +233,61 @@ def handle_whois_domain(param, connector):
         # Find level 2 entry (most detailed), or use last entry
         whois_entry = None
         for entry in whois_list:
-            if entry.get('level', 0) == 2:
+            if entry.get("level", 0) == 2:
                 whois_entry = entry
                 break
         if whois_entry is None:
             whois_entry = whois_list[-1] if whois_list else {}
 
         # Get data from values dict or parsed array
-        values_data = whois_entry.get('values', {})
-        parsed_array = whois_entry.get('parsed', [])
+        values_data = whois_entry.get("values", {})
+        parsed_array = whois_entry.get("parsed", [])
 
         parsed_dict = {}
         if parsed_array and isinstance(parsed_array, list):
             for item in parsed_array:
                 if item and isinstance(item, dict):
-                    field_name = item.get('field', '')
-                    field_value = item.get('value', [])
+                    field_name = item.get("field", "")
+                    field_value = item.get("value", [])
                     if field_name:
                         parsed_dict[field_name.lower()] = field_value
 
         data_source = values_data if values_data and any(values_data.values()) else parsed_dict
-        creation_date = get_first_value(data_source, 'creationDate') or top_level_created
+        creation_date = get_first_value(data_source, "creationDate") or top_level_created
 
         domain_data = {
-            'creationDate': creation_date,
-            'updatedDate': get_first_value(data_source, 'updatedDate'),
-            'expirationDate': get_first_value(data_source, 'expirationDate'),
-            'registrar': get_first_value(data_source, 'registrar'),
-            'whoisServer': get_first_value(data_source, 'whoisServer'),
-            'registrantName': get_first_value(data_source, 'name'),
-            'registrantOrg': get_first_value(data_source, 'org'),
-            'registrantCountry': get_first_value(data_source, 'country'),
-            'registrantState': get_first_value(data_source, 'state'),
-            'registrantCity': get_first_value(data_source, 'city'),
-            'registrantAddress': get_joined_values(data_source, 'address'),
-            'registrantZipcode': get_first_value(data_source, 'zipcode'),
-            'registrantPhone': get_joined_values(data_source, 'phone'),
-            'domainStatus': get_joined_values(data_source, 'status'),
-            'nameServers': get_joined_values(data_source, 'nameServers')
+            "creationDate": creation_date,
+            "updatedDate": get_first_value(data_source, "updatedDate"),
+            "expirationDate": get_first_value(data_source, "expirationDate"),
+            "registrar": get_first_value(data_source, "registrar"),
+            "whoisServer": get_first_value(data_source, "whoisServer"),
+            "registrantName": get_first_value(data_source, "name"),
+            "registrantOrg": get_first_value(data_source, "org"),
+            "registrantCountry": get_first_value(data_source, "country"),
+            "registrantState": get_first_value(data_source, "state"),
+            "registrantCity": get_first_value(data_source, "city"),
+            "registrantAddress": get_joined_values(data_source, "address"),
+            "registrantZipcode": get_first_value(data_source, "zipcode"),
+            "registrantPhone": get_joined_values(data_source, "phone"),
+            "domainStatus": get_joined_values(data_source, "status"),
+            "nameServers": get_joined_values(data_source, "nameServers"),
         }
 
-        has_data = any([
-            domain_data.get('creationDate'),
-            domain_data.get('registrar'),
-            domain_data.get('expirationDate'),
-            domain_data.get('domainStatus'),
-            domain_data.get('nameServers')
-        ])
+        has_data = any(
+            [
+                domain_data.get("creationDate"),
+                domain_data.get("registrar"),
+                domain_data.get("expirationDate"),
+                domain_data.get("domainStatus"),
+                domain_data.get("nameServers"),
+            ]
+        )
 
         if has_data:
             action_result.add_data(domain_data)
-            action_result.update_summary({
-                "Domain": domain,
-                "Registrar": domain_data.get('registrar'),
-                "Creation Date": domain_data.get('creationDate')
-            })
+            action_result.update_summary(
+                {"Domain": domain, "Registrar": domain_data.get("registrar"), "Creation Date": domain_data.get("creationDate")}
+            )
             action_result.set_status(phantom.APP_SUCCESS, f"Successfully retrieved WHOIS data for domain: {domain}")
         else:
             action_result.set_status(phantom.APP_SUCCESS, f"WHOIS data found but key fields empty for domain: {domain}")
@@ -334,10 +334,7 @@ def handle_ip_scoring(param, connector):
                 ip_data = items[first_key]
 
         if ip_data:
-            scoring_result = {
-                "ip": ip_data.get("ip", ip),
-                "score": ip_data.get("riskScore", 0)
-            }
+            scoring_result = {"ip": ip_data.get("ip", ip), "score": ip_data.get("riskScore", 0)}
             action_result.add_data(scoring_result)
             action_result.set_status(phantom.APP_SUCCESS, f"Successfully retrieved score for IP: {ip}")
         else:
