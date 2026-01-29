@@ -58,8 +58,6 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 **compromised_account_group_probable_corporate_access** | optional | boolean | Filter by probable corporate access for compromised/account_group |
 **compromised_account_group_unique** | optional | boolean | Filter by unique detections for compromised/account_group |
 **compromised_account_group_combolist** | optional | boolean | Filter by combolist detections for compromised/account_group |
-**compromised_breached** | optional | boolean | Compromised/Breached collection |
-**compromised_breached_start** | optional | string | Date to start for compromised/breached |
 **compromised_bank_card_group** | optional | boolean | Compromised/Bank Card Group collection |
 **compromised_bank_card_group_start** | optional | string | Date to start for compromised/bank_card_group |
 **compromised_masked_card** | optional | boolean | Compromised/Masked Card collection |
