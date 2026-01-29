@@ -25,10 +25,10 @@ from dateparser import parse
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
-from groupib_ti_actions import handle_ip_scoring, handle_whois_domain, handle_whois_ip
-from groupib_ti_consts import *
-from groupib_ti_parser import parse_artifacts
-from groupib_ti_utils import config_to_int_flag
+from groupibthreatintelligenceandattribution_actions import handle_ip_scoring, handle_whois_domain, handle_whois_ip
+from groupibthreatintelligenceandattribution_consts import *
+from groupibthreatintelligenceandattribution_parser import parse_artifacts
+from groupibthreatintelligenceandattribution_utils import config_to_int_flag
 
 
 class RetVal(tuple):
@@ -36,7 +36,7 @@ class RetVal(tuple):
         return tuple.__new__(RetVal, (val1, val2))
 
 
-class Groupib_TiConnector(BaseConnector):
+class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
     def __init__(self):
         super().__init__()
         self._state = None
@@ -475,7 +475,7 @@ def main():
 
     if username and password:
         try:
-            login_url = Groupib_TiConnector._get_phantom_base_url() + "/login"
+            login_url = GroupIbThreatIntelligenceAndAttributionConnector._get_phantom_base_url() + "/login"
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False, timeout=30)  # nosec B501
             csrftoken = r.cookies["csrftoken"]
@@ -495,7 +495,7 @@ def main():
         in_json = json.loads(in_json)
         print(json.dumps(in_json, indent=4))
 
-        connector = Groupib_TiConnector()
+        connector = GroupIbThreatIntelligenceAndAttributionConnector()
         connector.print_progress_message = True
 
         if session_id is not None:

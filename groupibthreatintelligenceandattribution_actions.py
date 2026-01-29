@@ -17,7 +17,7 @@ import phantom.app as phantom
 from dateparser import parse
 from phantom.action_result import ActionResult
 
-from groupib_ti_utils import get_first_value, get_joined_values
+from groupibthreatintelligenceandattribution_utils import get_first_value, get_joined_values
 
 
 def handle_whois_ip(param, connector):

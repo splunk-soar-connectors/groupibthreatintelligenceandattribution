@@ -1,7 +1,7 @@
 **Unreleased**
 
 * Major version update to 3.0.0
-* Refactored code structure with new module naming (groupib_ti_*)
+* Refactored code structure and improved code organization
 * Added new investigate actions: whois_ip, whois_domain, and ip_scoring
 * Migrated from wheel-based dependencies to PyPI dependencies
 * Updated minimum SOAR version requirement to 6.3.0

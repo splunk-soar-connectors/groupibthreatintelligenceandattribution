@@ -1,4 +1,4 @@
-# GroupIB_TI
+# Group IB Threat Intelligence
 
 Publisher: Group-IB \
 Connector Version: 3.0.0 \
@@ -43,7 +43,7 @@ Group-IB.
 
 ### Configuration variables
 
-This table lists the configuration variables required to operate GroupIB_TI. These variables are specified when configuring a Threat Intelligence asset in Splunk SOAR.
+This table lists the configuration variables required to operate Group IB Threat Intelligence. These variables are specified when configuring a Threat Intelligence asset in Splunk SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------

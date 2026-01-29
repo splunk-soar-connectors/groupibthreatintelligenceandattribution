@@ -13,8 +13,8 @@
 # limitations under the License.
 """Artifact parser for Group-IB Threat Intelligence Connector."""
 
-from groupib_ti_consts import *
-from groupib_ti_utils import (
+from groupibthreatintelligenceandattribution_consts import *
+from groupibthreatintelligenceandattribution_utils import (
     create_artifact,
     determine_hash_type,
     extract_cnc_fields,
