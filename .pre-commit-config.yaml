@@ -43,9 +43,12 @@ repos:
       - id: mdformat
         exclude: "release_notes/.*"
   - repo: https://github.com/returntocorp/semgrep
-    rev: v1.89.0
+    # v1.89.x + old OpenTelemetry required pkg_resources; newer Semgrep avoids that. Keep
+    # setuptools for minimal Python 3.12+ hook venvs if any transitive dep still needs it.
+    rev: v1.161.0
     hooks:
       - id: semgrep
+        additional_dependencies: [setuptools]
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
