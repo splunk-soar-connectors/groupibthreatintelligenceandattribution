@@ -7,3 +7,4 @@
 * Updated minimum SOAR version requirement to 6.3.0
 * Enhanced collection configuration with additional filter options
 * Improved code organization and maintainability
+* Removed `compromised_breached` collection support (and its `compromised_breached_start` config option) due to API deprecation

@@ -19,7 +19,6 @@ from datetime import datetime, timedelta
 
 import phantom.app as phantom
 import requests
-from bs4 import BeautifulSoup
 from cyberintegrations import TIPoller
 from dateparser import parse
 from phantom.action_result import ActionResult
@@ -31,88 +30,12 @@ from groupibthreatintelligenceandattribution_parser import parse_artifacts
 from groupibthreatintelligenceandattribution_utils import config_to_int_flag
 
 
-class RetVal(tuple):
-    def __new__(cls, val1, val2=None):
-        return tuple.__new__(RetVal, (val1, val2))
-
-
 class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
     def __init__(self):
         super().__init__()
         self._state = None
-        self._base_url = None
         self._gib_tia_connector = TIPoller("", "", "")
         self._collections = {}
-
-    def _process_empty_response(self, response, action_result):
-        if response.status_code == 200:
-            return RetVal(phantom.APP_SUCCESS, {})
-        return RetVal(action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"), None)
-
-    def _process_html_response(self, response, action_result):
-        status_code = response.status_code
-        try:
-            soup = BeautifulSoup(response.text, "html.parser")
-            error_text = soup.text
-            split_lines = error_text.split("\n")
-            split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = "\n".join(split_lines)
-        except:
-            error_text = "Cannot parse error details"
-
-        message = f"Status Code: {status_code}. Data from server:\n{error_text}\n"
-        message = message.replace("{", "{{").replace("}", "}}")
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _process_json_response(self, r, action_result):
-        try:
-            resp_json = r.json()
-        except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Unable to parse JSON response. Error: {e}"), None)
-
-        if 200 <= r.status_code < 399:
-            return RetVal(phantom.APP_SUCCESS, resp_json)
-
-        message = "Error from server. Status Code: {} Data from server: {}".format(r.status_code, r.text.replace("{", "{{").replace("}", "}}"))
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _process_response(self, r, action_result):
-        if hasattr(action_result, "add_debug_data"):
-            action_result.add_debug_data({"r_status_code": r.status_code})
-            action_result.add_debug_data({"r_text": r.text})
-            action_result.add_debug_data({"r_headers": r.headers})
-
-        if "json" in r.headers.get("Content-Type", ""):
-            return self._process_json_response(r, action_result)
-
-        if "html" in r.headers.get("Content-Type", ""):
-            return self._process_html_response(r, action_result)
-
-        if not r.text:
-            return self._process_empty_response(r, action_result)
-
-        message = "Can't process response from server. Status Code: {} Data from server: {}".format(
-            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
-        )
-        return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
-
-    def _make_rest_call(self, endpoint, action_result, method="get", **kwargs):
-        config = self.get_config()
-        resp_json = None
-
-        try:
-            request_func = getattr(requests, method)
-        except AttributeError:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"), resp_json)
-
-        url = self._base_url + endpoint
-
-        try:
-            r = request_func(url, verify=config.get("verify_server_cert", False), **kwargs)
-        except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e}"), resp_json)
-
-        return self._process_response(r, action_result)
 
     def _setup_generator(
         self, collection_name, date_start, date_end=None, last_fetch=None, probable_corporate_access=None, unique=None, combolist=None
@@ -212,7 +135,6 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
     def _handle_test_connectivity(self, param):
         """Test connectivity to Group-IB API."""
         action_result = self.add_action_result(ActionResult(dict(param)))
-        action_result.set_status(phantom.APP_SUCCESS)
         self.save_progress("Connecting to endpoint")
 
         try:
@@ -233,7 +155,6 @@ class GroupIbThreatIntelligenceAndAttributionConnector(BaseConnector):
         """Poll Group-IB API for threat intelligence data."""
         is_manual_poll = self.is_poll_now()
         action_result = self.add_action_result(ActionResult(dict(param)))
-        action_result.set_status(phantom.APP_SUCCESS)
         container_count = 0
         artifacts_count = 0
         limit_reached = False
