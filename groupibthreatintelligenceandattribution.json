@@ -823,11 +823,11 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.1.post1-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",
-                "input_file": "wheels/py313/regex-2026.1.15-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py313/regex-2026.4.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "tzlocal",
@@ -847,7 +847,7 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.1.post1-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",
