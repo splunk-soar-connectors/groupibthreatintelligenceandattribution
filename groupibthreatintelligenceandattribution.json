@@ -823,7 +823,7 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2026.1.post1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.2-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",
@@ -847,7 +847,7 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2026.1.post1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.2-py2.py3-none-any.whl"
             },
             {
                 "module": "regex",

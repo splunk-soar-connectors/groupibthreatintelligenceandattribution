@@ -1,9 +1,9 @@
 # Group IB Threat Intelligence
 
-Publisher: Group-IB \
-Connector Version: 3.0.0 \
-Product Vendor: Group-IB \
-Product Name: Threat Intelligence \
+Publisher: Group-IB <br>
+Connector Version: 3.0.0 <br>
+Product Vendor: Group-IB <br>
+Product Name: Threat Intelligence <br>
 Minimum Product Version: 6.3.0
 
 This app ingests incidents and IOCs from Group-IB Threat Intelligence
@@ -89,17 +89,17 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality \
-[whois_ip](#action-whoisip) - Execute whois lookup on the given IP address \
-[whois_domain](#action-whoisdomain) - Execute whois lookup on the given domain name \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[on poll](#action-on-poll) - Callback action for the on_poll ingest functionality <br>
+[whois_ip](#action-whoisip) - Execute whois lookup on the given IP address <br>
+[whois_domain](#action-whoisdomain) - Execute whois lookup on the given domain name <br>
 [ip scoring](#action-ip-scoring) - Get risk score for an IP address from Group-IB Threat Intelligence
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -114,7 +114,7 @@ No Output
 
 Callback action for the on_poll ingest functionality
 
-Type: **ingest** \
+Type: **ingest** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -135,7 +135,7 @@ No Output
 
 Execute whois lookup on the given IP address
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -167,7 +167,7 @@ summary.total_objects | numeric | | |
 
 Execute whois lookup on the given domain name
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -205,7 +205,7 @@ summary.total_objects | numeric | | |
 
 Get risk score for an IP address from Group-IB Threat Intelligence
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 Queries the Group-IB Threat Intelligence API to retrieve the risk score associated with a given IP address.
