@@ -91,8 +91,8 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
 [on poll](#action-on-poll) - Callback action for the on_poll ingest functionality <br>
-[whois_ip](#action-whoisip) - Execute whois lookup on the given IP address <br>
-[whois_domain](#action-whoisdomain) - Execute whois lookup on the given domain name <br>
+[whois ip](#action-whois-ip) - Execute whois lookup on the given IP address <br>
+[whois domain](#action-whois-domain) - Execute whois lookup on the given domain name <br>
 [ip scoring](#action-ip-scoring) - Get risk score for an IP address from Group-IB Threat Intelligence
 
 ## action: 'test connectivity'
@@ -131,7 +131,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 No Output
 
-## action: 'whois_ip'
+## action: 'whois ip'
 
 Execute whois lookup on the given IP address
 
@@ -163,7 +163,7 @@ action_result.message | string | | |
 summary.total_objects_successful | numeric | | |
 summary.total_objects | numeric | | |
 
-## action: 'whois_domain'
+## action: 'whois domain'
 
 Execute whois lookup on the given domain name
 

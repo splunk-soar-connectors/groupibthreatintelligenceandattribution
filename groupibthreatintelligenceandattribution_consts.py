@@ -31,25 +31,6 @@ BASE_CNC = {
     "CNC ASN": "cnc.ipv4.asn",
 }
 
-# Common field mappings for reuse (DRY principle)
-IPV4_FIELD_MAPPING = {
-    "ip": "destinationAddress",
-    "countryName": "Country",
-    "city": "City",
-    "provider": "Provider",
-    "region": "Region",
-    "asn": "ASN",
-    "countryCode": "Country Code",
-}
-
-EVALUATION_FIELD_MAPPING = {
-    "admiraltyCode": "Admiralty Code",
-    "credibility": "Credibility",
-    "reliability": "Reliability",
-    "ttl": "TTL",
-    "severity": "Severity",
-}
-
 HOST_INFO_FIELD_MAPPING = {
     "username": "Username",
     "pcname": "PCName",

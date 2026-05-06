@@ -69,38 +69,6 @@ def get_joined_values(data_source, key, separator=", "):
     return None
 
 
-def extract_cef_fields(data_dict, cef_dict, field_mappings, stringify_numbers=True):
-    """Extract fields from data dict to CEF dict using mappings."""
-    if not data_dict or not isinstance(data_dict, dict):
-        return cef_dict
-
-    for cef_key, data_key in field_mappings.items():
-        value = data_dict.get(data_key)
-        if value is not None:
-            if stringify_numbers and isinstance(value, int | float):
-                cef_dict[cef_key] = str(value)
-            else:
-                cef_dict[cef_key] = value
-
-    return cef_dict
-
-
-def extract_nested_cef_fields(data_dict, cef_dict, field_mappings, stringify_numbers=True):
-    """Extract fields using dot notation paths from data dict to CEF dict."""
-    if not data_dict or not isinstance(data_dict, dict):
-        return cef_dict
-
-    for cef_key, data_path in field_mappings.items():
-        value = get_nested_value(data_dict, data_path)
-        if value is not None:
-            if stringify_numbers and isinstance(value, int | float):
-                cef_dict[cef_key] = str(value)
-            else:
-                cef_dict[cef_key] = value
-
-    return cef_dict
-
-
 def safe_get_list(data, key):
     """Get a list from dictionary, ensuring result is always a list."""
     if not data or not isinstance(data, dict):
