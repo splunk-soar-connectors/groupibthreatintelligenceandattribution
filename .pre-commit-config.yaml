@@ -37,19 +37,21 @@ repos:
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
+  - repo: https://github.com/phantomcyber/soar-app-linter
+    rev: 0.1.0
+    hooks:
+      - id: soar-app-linter
+        args: ["--single-repo", "--message-level", "error"]
   - repo: https://github.com/hukkin/mdformat
     rev: 1.0.0
     hooks:
       - id: mdformat
         exclude: "release_notes/.*"
   - repo: https://github.com/returntocorp/semgrep
-    # Semgrep 1.89.x pulls OpenTelemetry that imports pkg_resources (from setuptools).
-    # setuptools>=82 removed pkg_resources; unpinned "setuptools" therefore breaks the hook.
-    # Pin <82 until Semgrep/OpenTelemetry no longer need pkg_resources, or bump semgrep rev.
-    rev: v1.89.0
+    rev: v1.136.0
     hooks:
       - id: semgrep
-        additional_dependencies: ["setuptools>=69,<82"]
+        additional_dependencies: ["setuptools==81.0.0"]
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
