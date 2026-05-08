@@ -1,98 +1,115 @@
-# Copyright (c) 2025 Splunk Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# File: groupibthreatintelligenceandattribution_consts.py
-#
-# Licensed under Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0.txt)
-#
+# Copyright (c) 2025-2026 Splunk Inc.
+# Licensed under the Apache License, Version 2.0
+"""Constants and collection mappings for Group-IB Threat Intelligence Connector."""
+
+# Base templates
 BASE_CONTAINER = {"tags": ["gib"]}
-BASE_ARTIFACT = {"label": "gib indicator", "tags": ["gib"]}
-BASE_MAPPING_CONTAINER = {"source_data_identifier": "id", "sensitivity": "evaluation.tlp", "severity": "evaluation.severity"}
+BASE_ARTIFACT = {"tags": ["gib"]}
+BASE_ARTIFACT_INDICATOR = {"label": "gib indicator", "tags": ["gib"]}
+BASE_ARTIFACT_INFO = {"label": "gib info", "tags": ["gib"]}
+
+# Collection classifications
+INDICATOR_COLLECTIONS = ["ioc/common"]
+INFO_COLLECTIONS = ["compromised/account_group"]
+
+# Mappings
+BASE_MAPPING_CONTAINER = {"source_data_identifier": "id", "sensitivity": "amber", "severity": "evaluation.severity"}
 BASE_MAPPING_ARTIFACT = {}
-BASE_CEF_LIST = {"deviceVendor": "*Group IB", "deviceProduct": "*Threat Intelligence and Attribution", "deviceSeverity": "evaluation.severity"}
+
+# CEF base fields
+BASE_CEF_LIST = {"deviceVendor": "*Group-IB", "deviceProduct": "*Threat Intelligence"}
+
 BASE_CNC = {
     **BASE_CEF_LIST,
-    "sourceHostName": "cnc.domain",
-    "sourceAddress": "cnc.ipv4.ip",
-    "requestUrl": "cnc.url",
-    "deviceCustomString1": "cnc.ipv4.region",
-    "deviceCustomString1label": "*region",
-    "deviceCustomString2": "cnc.ipv4.countryName",
-    "deviceCustomString2label": "*countryName",
-    "deviceCustomString3": "cnc.ipv4.provider",
-    "deviceCustomString3label": "*provider",
-    "deviceCustomString4": "cnc.ipv4.city",
-    "deviceCustomString4label": "*city",
-    "deviceCustomString5": "cnc.ipv4.asn",
-    "deviceCustomString5label": "*asn",
+    "CNC Domain": "cnc.domain",
+    "CNC IP": "cnc.ipv4.ip",
+    "CNC URL": "cnc.url",
+    "CNC Region": "cnc.ipv4.region",
+    "CNC Country": "cnc.ipv4.countryName",
+    "CNC Provider": "cnc.ipv4.provider",
+    "CNC City": "cnc.ipv4.city",
+    "CNC ASN": "cnc.ipv4.asn",
 }
-BASE_ADDITIONAL_INFO = {
+
+HOST_INFO_FIELD_MAPPING = {
+    "username": "Username",
+    "pcname": "PCName",
+    "hwid": "HardwareID",
+    "guid": "System GUID",
+    "os_raw": "OS Details",
+    "os_clean": "OS Family",
+    "country": "Country",
+    "screen": "Screen Resolution",
+    "utc": "Time Zone",
+    "locale": "System Locale",
+    "malware_path": "Malware Location",
+    "build": "Stealer Build",
+    "stealer_version": "Stealer Version",
+}
+
+# Suspicious IP templates
+SUSPICIOUS_IP_BASE_CEF = {
     **BASE_CEF_LIST,
-    "deviceCustomString1": "malware.name",
-    "deviceCustomString1label": "*malwareName",
-    "deviceCustomString2": "threatActor.name",
-    "deviceCustomString2label": "*threatActor",
-    "deviceCustomString3": "threatActor.isAPT",
-    "deviceCustomString3label": "*threatActorIsApt",
-    "requestUrl": "portalLink",
+    "externalId": "id",
+    "destinationAddress": "ipv4.ip",
+    "First Seen": "dateFirstSeen",
+    "Last Seen": "dateLastSeen",
+    "ASN": "ipv4.asn",
+    "Country": "ipv4.countryName",
+    "Country Code": "ipv4.countryCode",
+    "Region": "ipv4.region",
+    "City": "ipv4.city",
+    "Credibility": "evaluation.credibility",
+    "Reliability": "evaluation.reliability",
+    "TTL": "evaluation.ttl",
+    "Portal Link": "portalLink",
 }
+
+SUSPICIOUS_IP_BASE_CONTAINER = {"name": "id", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"}
+
+SUSPICIOUS_IP_COLLECTIONS = [
+    "suspicious_ip/scanner",
+    "suspicious_ip/tor_node",
+    "suspicious_ip/open_proxy",
+    "suspicious_ip/socks_proxy",
+    "suspicious_ip/vpn",
+]
+
+SUSPICIOUS_IP_ARRAY_FIELDS = {
+    "suspicious_ip/scanner": "categories",
+    "suspicious_ip/tor_node": None,
+    "suspicious_ip/open_proxy": "sources",
+    "suspicious_ip/socks_proxy": None,
+    "suspicious_ip/vpn": "sources",
+}
+
+# Collection configurations
 INCIDENT_COLLECTIONS_INFO = {
     "ioc/common": {
-        "container": {"name": "login", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
-        "artifacts": [
-            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
-            {
-                "name": "*IOC common",
-                "type": "*network",
-                "start_time": "dateDetected",
-                "cef": {
-                    **BASE_CEF_LIST,
-                    "*id": "id",
-                    "*threatList.name": "threatList.name",
-                    "destinationHostName": "domain",
-                    "destinationAddress": "client.ipv4.ip",
-                },
-            },
-        ],
+        "container": {"name": "id", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "prefix": "IOC common",
     },
     "compromised/account_group": {
-        "container": {"name": "login", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
+        "container": {"name": "service.host", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
-            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
             {
                 "name": "*Compromised account",
-                "type": "*network",
-                "start_time": "dateDetected",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
                 "cef": {
                     **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "First_Seen": "dateFirstSeen",
+                    "Last_Seen": "dateLastSeen",
                     "Login": "login",
                     "Password": "password",  # pragma: allowlist secret
-                    "Events": "events",
-                    "destinationHostName": "domain",
-                    "destinationAddress": "client.ipv4.ip",
+                    "Login URL": "service.url",
+                    "Host": "service.host",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "Admiralty Code": "evaluation.admiraltyCode",
                 },
-            },
-            {
-                "name": "*Additional info",
-                "type": "*other",
-                "cef": {
-                    **BASE_ADDITIONAL_INFO,
-                    "duser": "dropEmail.email",
-                    "Company": "company",
-                    "Device": "device",
-                },
-            },
+            }
         ],
         "prefix": "Compromised Account",
     },
@@ -105,155 +122,377 @@ INCIDENT_COLLECTIONS_INFO = {
                 "start_time": "uploadTime",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "leakName": "leakName",
-                    "password": "password",  # pragma: allowlist secret
+                    "externalId": "id",
+                    "Email": "email",
+                    "Leak Name": "leakName",
+                    "Password": "password",  # pragma: allowlist secret
                 },
             }
         ],
         "prefix": "Data Breach",
     },
-    "compromised/card": {
+    "compromised/bank_card_group": {
+        "container": {"name": "cardInfo.number", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {
+                "name": "*Compromised card",
+                "type": "*other",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "Card Number": "cardInfo.number",
+                    "Issuer": "cardInfo.issuer.issuer",
+                    "Issuer Country": "cardInfo.issuer.countryCode",
+                    "Payment System": "cardInfo.system",
+                    "Card Type": "cardInfo.type",
+                    "First Seen": "dateFirstSeen",
+                    "Last Seen": "dateLastSeen",
+                    "First Compromised": "dateFirstCompromised",
+                    "Last Compromised": "dateLastCompromised",
+                    "Event Count": "eventCount",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                },
+            },
+        ],
+        "prefix": "Bank Card Group",
+    },
+    "compromised/masked_card": {
         "container": {"name": "cardInfo.number", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
-            {"name": "*cnc", "type": "*network", "start_time": "dateDetected", "cef": BASE_CNC},
             {
                 "name": "*Compromised card",
                 "type": "*other",
                 "start_time": "dateDetected",
                 "cef": {
                     **BASE_CEF_LIST,
+                    "externalId": "id",
                     "Card Number": "cardInfo.number",
-                    "deviceCustomString1label": "*cardNumber",
-                    "deviceCustomString2": "cardInfo.issuer.issuer",
-                    "deviceCustomString2label": "*issuer",
-                    "deviceCustomString3": "cardInfo.system",
-                    "deviceCustomString3label": "*paymentSystem",
-                    "deviceCustomString4": "cardInfo.type",
-                    "deviceCustomString4label": "*type",
-                    "deviceCustomString5": "cardInfo.validThru",
-                    "deviceCustomString5label": "*validThru",
-                    "deviceCustomNumber1": "cardInfo.cvv",
-                    "deviceCustomNumber1label": "*cvv",
+                    "Issuer": "cardInfo.issuer.issuer",
+                    "Issuer Country": "cardInfo.issuer.countryCode",
+                    "Payment System": "cardInfo.system",
+                    "Card Type": "cardInfo.type",
+                    "Valid Thru": "cardInfo.validThru",
+                    "CVV": "cardInfo.cvv",
+                    "Date Detected": "dateDetected",
+                    "Date Compromised": "dateCompromised",
+                    "Is Dump": "isDump",
+                    "Is Expired": "isExpired",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                },
+            },
+            {
+                "name": "*CNC",
+                "type": "*network",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "CNC": "cnc.cnc",
+                    "CNC Domain": "cnc.domain",
+                    "CNC IP": "cnc.ipv4.ip",
+                    "CNC Country": "cnc.ipv4.countryName",
+                    "CNC City": "cnc.ipv4.city",
+                    "CNC Provider": "cnc.ipv4.provider",
+                    "CNC ASN": "cnc.ipv4.asn",
                 },
             },
             {
                 "name": "*Owner",
                 "type": "*other",
-                "cef": {**BASE_CEF_LIST, "deviceCustomString1": "owner.name", "deviceCustomString1label": "*name", "suser": "owner.email"},
-            },
-            {
-                "name": "*Additional info",
-                "type": "*other",
-                "cef": {
-                    **BASE_ADDITIONAL_INFO,
-                    "deviceCustomString4": "company",
-                    "deviceCustomString4label": "*company",
-                },
-            },
-        ],
-        "prefix": "Compromised Card",
-    },
-    "malware/targeted_malware": {
-        "container": {"name": "md5", "start_time": "date", "last_fetch": "seqUpdate"},
-        "artifacts": [
-            {
-                "name": "*Targeted malware",
-                "type": "*file",
-                "start_time": "date",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "fileName": "fileName",
-                    "fileType": "fileType",
-                    "fileSize": "size",
-                    "deviceCustomString1": "injectMd5",
-                    "deviceCustomString1label": "*injectMd5",
-                    "deviceCustomString2": "md5",
-                    "deviceCustomString2label": "*md5",
-                    "deviceCustomString3": "sha1",
-                    "deviceCustomString3label": "*sha1",
-                    "deviceCustomString4": "sha256",
-                    "deviceCustomString4label": "*sha256",
+                    "Owner Name": "owner.name",
+                    "Owner Email": "owner.email",
+                    "Owner Address": "owner.address",
+                    "Owner Country": "owner.countryCode",
+                    "Owner State": "owner.state",
+                    "Owner City": "owner.city",
+                    "Owner ZIP": "owner.zip",
+                    "Owner Phone": "owner.phone",
                 },
             },
             {
                 "name": "*Additional info",
                 "type": "*other",
                 "cef": {
-                    **BASE_ADDITIONAL_INFO,
-                    "deviceCustomString4": "source",
-                    "deviceCustomString4label": "*source",
-                    "deviceCustomString5": "company",
-                    "deviceCustomString5label": "*company",
+                    **BASE_CEF_LIST,
+                    "Malware Name": "malware.name",
+                    "Malware ID": "malware.id",
+                    "Threat Actor": "threatActor.name",
+                    "Threat Actor ID": "threatActor.id",
+                    "Threat Actor Is APT": "threatActor.isAPT",
+                    "Source Type": "sourceType",
+                    "Source Link": "sourceLink",
+                    "Price": "price.value",
+                    "Currency": "price.currency",
                 },
             },
         ],
-        "prefix": "Targeted Malware",
+        "prefix": "Masked Card",
+    },
+    "malware/config": {
+        "container": {"name": "hash", "start_time": "dateFirstSeen", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {
+                "name": "*Malware config",
+                "type": "*file",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "fileHash": "hash",
+                    "First Seen": "dateFirstSeen",
+                    "Last Seen": "dateLastSeen",
+                    "Malware Name": "malware.name",
+                    "Malware ID": "malware.id",
+                    "Content Length": "contentLen",
+                },
+            },
+        ],
+        "prefix": "Malware Config",
     },
     "osi/public_leak": {
         "container": {"name": "hash", "start_time": "created", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
-                "name": "*Additional info",
+                "name": "*Public leak info",
                 "type": "*other",
+                "start_time": "created",
                 "cef": {
                     **BASE_CEF_LIST,
+                    "externalId": "id",
                     "fileHash": "hash",
-                    "fileSize": "size",
-                    "deviceCustomString1": "language",
-                    "deviceCustomString1label": "*language",
-                    "deviceCustomString2": "matches",
-                    "deviceCustomString2label": "*matches",
-                    "requestUrl": "portalLink",
+                    "File Size": "size",
+                    "Language": "language",
+                    "Matches": "matches",
+                    "Created": "created",
+                    "Portal Link": "portalLink",
                 },
             }
         ],
         "prefix": "Public Leak",
     },
-    "osi/git_leak": {
-        "container": {"name": "name", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
+    "osi/git_repository": {
+        "container": {"name": "name", "start_time": "dateCreated", "end_time": "dateDetected", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
-                "name": "*Additional info",
+                "name": "*Git repository info",
                 "type": "*other",
+                "start_time": "dateCreated",
+                "end_time": "dateDetected",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "fileName": "name",
-                    "deviceCustomString1": "source",
-                    "deviceCustomString1label": "*source",
-                    "deviceCustomString2": "repository",
-                    "deviceCustomString2label": "*repository",
-                    "deviceCustomString3": "matchesType",
-                    "deviceCustomString3label": "*matchesType",
-                    "requestUrl": "file",
+                    "externalId": "id",
+                    "Repository URL": "name",
+                    "Source": "source",
+                    "Date Created": "dateCreated",
+                    "Date Detected": "dateDetected",
+                    "Contributors Count": "numberOf.contributors",
+                    "Files Count": "numberOf.files",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "TTL": "evaluation.ttl",
                 },
             }
         ],
-        "prefix": "Git Leak",
+        "prefix": "Git Repository",
     },
-    "bp/phishing": {
-        "container": {"name": "phishingDomain.domain", "start_time": "dateDetected", "last_fetch": "seqUpdate"},
+    "suspicious_ip/scanner": {
+        "container": SUSPICIOUS_IP_BASE_CONTAINER,
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Scanner",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Categories": "categories",
+                },
+            }
+        ],
+        "prefix": "Suspicious IP Scanner",
+    },
+    "suspicious_ip/tor_node": {
+        "container": SUSPICIOUS_IP_BASE_CONTAINER,
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Tor Node",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Source": "source",
+                },
+            }
+        ],
+        "prefix": "Suspicious IP Tor Node",
+    },
+    "suspicious_ip/open_proxy": {
+        "container": SUSPICIOUS_IP_BASE_CONTAINER,
+        "artifacts": [
+            {
+                "name": "*Suspicious IP Open Proxy",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "destinationPort": "port",
+                    "Sources": "sources",
+                    "Proxy Type": "type",
+                },
+            }
+        ],
+        "prefix": "Suspicious IP Open Proxy",
+    },
+    "suspicious_ip/socks_proxy": {
+        "container": SUSPICIOUS_IP_BASE_CONTAINER,
+        "artifacts": [
+            {
+                "name": "*Suspicious IP SOCKS Proxy",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Source": "source",
+                },
+            }
+        ],
+        "prefix": "Suspicious IP SOCKS Proxy",
+    },
+    "suspicious_ip/vpn": {
+        "container": SUSPICIOUS_IP_BASE_CONTAINER,
+        "artifacts": [
+            {
+                "name": "*Suspicious IP VPN",
+                "type": "*network",
+                "start_time": "dateFirstSeen",
+                "end_time": "dateLastSeen",
+                "cef": {
+                    **SUSPICIOUS_IP_BASE_CEF,
+                    "Sources": "sources",
+                },
+            }
+        ],
+        "prefix": "Suspicious IP VPN",
+    },
+    "attacks/ddos": {
+        "container": {"name": "id", "start_time": "dateBegin", "end_time": "dateEnd", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {"name": "*cnc", "type": "*network", "start_time": "dateBegin", "cef": BASE_CNC},
+            {
+                "name": "*DDoS Attack",
+                "type": "*network",
+                "start_time": "dateBegin",
+                "end_time": "dateEnd",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "destinationAddress": "target.ipv4.ip",
+                    "destinationPort": "target.port",
+                    "destinationDnsDomain": "target.domain",
+                    "Date Begin": "dateBegin",
+                    "Date End": "dateEnd",
+                    "Date Registered": "dateReg",
+                    "Protocol": "protocol",
+                    "Attack Type": "type",
+                    "Source": "source",
+                    "Target ASN": "target.ipv4.asn",
+                    "Target Country": "target.ipv4.countryName",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Duration": "duration",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "Message Link": "messageLink",
+                },
+            },
+            {
+                "name": "*Target Info",
+                "type": "*other",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "Target Region": "target.ipv4.region",
+                    "Target City": "target.ipv4.city",
+                    "Target Provider": "target.ipv4.provider",
+                    "Target Country Code": "target.ipv4.countryCode",
+                },
+            },
+        ],
+        "prefix": "DDoS Attack",
+    },
+    "attacks/deface": {
+        "container": {"name": "id", "start_time": "date", "last_fetch": "seqUpdate"},
+        "artifacts": [
+            {
+                "name": "*Deface Attack",
+                "type": "*network",
+                "start_time": "date",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "externalId": "id",
+                    "requestUrl": "siteUrl",
+                    "destinationDnsDomain": "targetDomain",
+                    "destinationAddress": "targetIp.ip",
+                    "Date": "date",
+                    "Created At": "tsCreate",
+                    "Source": "source",
+                    "Target Domain Provider": "targetDomainProvider",
+                    "Target ASN": "targetIp.asn",
+                    "Target Country": "targetIp.countryName",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
+                    "TTL": "evaluation.ttl",
+                    "Threat Actor": "threatActor.name",
+                    "Threat Actor ID": "threatActor.id",
+                    "Threat Actor Is APT": "threatActor.isAPT",
+                },
+            },
+            {
+                "name": "*Target Info",
+                "type": "*other",
+                "cef": {
+                    **BASE_CEF_LIST,
+                    "Target Region": "targetIp.region",
+                    "Target City": "targetIp.city",
+                    "Target Provider": "targetIp.provider",
+                    "Target Country Code": "targetIp.countryCode",
+                },
+            },
+        ],
+        "prefix": "Deface Attack",
+    },
+    "attacks/phishing_group": {
+        "container": {"name": "domain", "start_time": "date.detected", "end_time": "date.blocked", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
                 "name": "*Phishing",
                 "type": "*network",
-                "start_time": "dateDetected",
+                "start_time": "date.detected",
+                "end_time": "date.blocked",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "sourceHostName": "phishingDomain.domain",
-                    "sourceAddress": "ipv4.ip",
-                    "requestUrl": "url",
-                    "deviceCustomString1": "ipv4.region",
-                    "deviceCustomString1label": "*region",
-                    "deviceCustomString2": "ipv4.countryName",
-                    "deviceCustomString2label": "*countryName",
-                    "deviceCustomString3": "ipv4.provider",
-                    "deviceCustomString3label": "*provider",
-                    "deviceCustomString4": "ipv4.city",
-                    "deviceCustomString4label": "*city",
-                    "deviceCustomString5": "ipv4.asn",
-                    "deviceCustomString5label": "*asn",
-                    "deviceCustomString6": "phishingDomain.title",
-                    "deviceCustomString6label": "*phishingTitle",
+                    "externalId": "id",
+                    "sourceHostName": "domain",
+                    "Domain Title": "domainTitle",
+                    "Target Brand": "brand",
+                    "Date Detected": "date.detected",
+                    "Date Blocked": "date.blocked",
+                    "Status": "status",
+                    "Phishing Count": "countPhishing",
+                    "Group Lifetime": "groupLifetime",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
                 },
             },
             {
@@ -261,38 +500,41 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*other",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "deviceCustomString1": "company",
-                    "deviceCustomString1label": "*company",
-                    "deviceCustomString2": "status",
-                    "deviceCustomString2label": "*status",
-                    "deviceCustomString3": "objective",
-                    "deviceCustomString3label": "*objective",
-                    "deviceCustomString4": "targetBrand",
-                    "deviceCustomString4label": "*targetBrand",
-                    "deviceCustomString5": "targetCategory",
-                    "deviceCustomString5label": "*targetCategory",
-                    "deviceCustomString6": "targetDomain",
-                    "deviceCustomString6label": "*targetDomain",
-                    "requestUrl": "portalLink",
+                    "Domain": "domainInfo.domain",
+                    "Domain Punycode": "domainInfo.domainPuny",
+                    "TLD": "domainInfo.tld",
+                    "Registrar": "domainInfo.registrar",
+                    "Registration Date": "domainInfo.registered",
+                    "Expiration Date": "domainInfo.expirationDate",
+                    "False Positive": "falsePositive",
+                    "Whitelist": "whitelist",
+                    "Threat Actor": "threatActor.name",
+                    "Threat Actor Is APT": "threatActor.isAPT",
                 },
             },
         ],
         "prefix": "Phishing",
     },
-    "bp/phishing_kit": {
+    "attacks/phishing_kit": {
         "container": {"name": "hash", "start_time": "dateDetected", "end_time": "dateLastSeen", "last_fetch": "seqUpdate"},
         "artifacts": [
             {
-                "name": "*Phishing_kit",
+                "name": "*Phishing kit",
                 "type": "*file",
                 "start_time": "dateDetected",
                 "end_time": "dateLastSeen",
                 "cef": {
                     **BASE_CEF_LIST,
+                    "externalId": "id",
                     "fileHash": "hash",
-                    "sourceDomain": "downloadedFrom.domain",
-                    "requestUrl": "downloadedFrom.url",
-                    "duser": "emails",
+                    "Date Detected": "dateDetected",
+                    "First Seen": "dateFirstSeen",
+                    "Last Seen": "dateLastSeen",
+                    "Login": "login",
+                    "Download Path": "path",
+                    "Admiralty Code": "evaluation.admiraltyCode",
+                    "Credibility": "evaluation.credibility",
+                    "Reliability": "evaluation.reliability",
                 },
             },
             {
@@ -300,29 +542,20 @@ INCIDENT_COLLECTIONS_INFO = {
                 "type": "*other",
                 "cef": {
                     **BASE_CEF_LIST,
-                    "deviceCustomString1": "company",
-                    "deviceCustomString1label": "*company",
-                    "deviceCustomString2": "source",
-                    "deviceCustomString2label": "*source",
-                    "deviceCustomString3": "login",
-                    "deviceCustomString3label": "*login",
-                    "deviceCustomString4": "targetBrand",
-                    "deviceCustomString4label": "*targetBrand",
-                    "requestUrl": "portalLink",
                 },
             },
         ],
         "prefix": "Phishing Kit",
     },
 }
-GIB_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+GIB_DATE_FORMAT = "%Y-%m-%d"
 SPLUNK_DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
 
+# Limits
 BASE_MAX_CONTAINERS_COUNT = 100
 BASE_MAX_ARTIFACTS_COUNT = 1000
 
-# Constants relating to '_get_error_message_from_exception'
+# Error messages
 ERROR_CODE_MESSAGE = "Error code unavailable"
-ERROR_MESSAGE_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and|or action parameters"
-
-GIB_STATE_FILE_CORRUPT_ERROR = "Unexpected file format when getting data. Resetting the state file with the default format. Please try again."
+ERROR_MESSAGE_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and/or action parameters"
+GIB_STATE_FILE_CORRUPT_ERROR = "Unexpected file format when getting data. Resetting the state file. Please try again."

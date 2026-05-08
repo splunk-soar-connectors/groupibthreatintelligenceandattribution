@@ -1,17 +1,17 @@
 Splunk SOAR App: Group IB Threat Intelligence
-Copyright (c) Group-IB, 2023-24
+Copyright (c) Group-IB, 2026
 Third Party Software Attributions:
 
 @@@@============================================================================
 
-Library: cyberintegrations - 0.7.0
+Library: cyberintegrations - 0.14.1
 Homepage: UNKNOWN
-License: MIT
+License: MIT License
 License Text:
 
 MIT License
 
-Copyright (c) 2021 Group-IB
+Copyright (c) 2025
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
