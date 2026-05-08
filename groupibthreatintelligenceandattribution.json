@@ -18,7 +18,7 @@
         }
     ],
     "app_version": "3.0.0",
-    "utctime_updated": "2026-01-22T14:28:44.196229Z",
+    "utctime_updated": "2026-05-08T08:38:57.473516Z",
     "package_name": "phantom_groupibthreatintelligenceandattribution",
     "main_module": "groupibthreatintelligenceandattribution_connector.py",
     "min_phantom_version": "6.3.0",
